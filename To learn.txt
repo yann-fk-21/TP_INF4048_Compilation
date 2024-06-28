@@ -1,0 +1,26 @@
+Voici les algorithmes que j'ai pu recenser:
+1. Recurrence sur les mots bases sur l'adjonction d'une occurence a droite / gauche
+2. La concatenation sur les mots
+3. Operations sur les langages
+* Reunion / Sommes des langages
+* Concatenation
+* Iteration et quotient
+* Puissance
+4. Systemes d'equations lineaire avec le lemme d'Arden
+5. Tester si un langage est regulier
+6. Tester si un AF est un AFD, un AFDC, AFN ou un e-AFN
+7. Tester si un mot d'un langage est reconnu par un AF
+8. Tester si un langage est reconnaissable par un automate
+9. Tester si 2 automates sont equivalents
+10. Determinisation
+11. Operations sur un AFN
+* e-fermeture (e)
+* e-fermeture (T)
+* Transiter (T, a)
+12. Construction des sous-ensembles
+13. Tester si un langage est rationel
+14. Algorithme de Thompson
+15. Algorithme de BMC
+16. Construction d'un algorithme canonique a partir un automate
+17. Minimisation
+18. Algorithme de construction de classe d'equivalence

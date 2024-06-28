@@ -86,7 +86,7 @@ char* lexAnal(char* string, int start, int end)
             if(string[i] == '.')
                 well = 0;
         }
-        if(!well)
+        if(!well || end - start != 2)
             return "parsing error";
             
         strncpy(temp, string + start, end-start);
