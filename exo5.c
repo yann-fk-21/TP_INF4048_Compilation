@@ -24,9 +24,13 @@ int grep1(char* string, char* word)
     for(int i = 0; string[i] != '\0'; ++i)
     {
         int j = 0;
+        printf("%s\n", i);
+        while(word[j] != '\0' && string[i + j] == word[j]){
+            printf("%s", word[j]);
 
-        while(word[j] != '\0' && string[i + j] == word[j])
             j++;
+        }
+        
         
         if(word[j] == '\0')
             count++;
@@ -39,33 +43,8 @@ int grep1(char* string, char* word)
 
 int grep2(char* string, char* reg)
 {
-    int count = 0;
 
-    for(int i = 0; string[i] != '\0'; ++i)
-    {
-        int j = 0, state = 0;
-
-        while(reg[j] != '\0' && reg[j] != '*' && string[i + j] == reg[j])
-        {
-            state++;
-            j++;
-        }
-
-        if(reg[j] != '*')
-            continue;
-
-
-        while(reg[j] != '\0' && string[i + j] == reg[j])
-        {
-            
-            j++;
-        }
-        
-        if(reg[j] == '\0')
-            count++;
-    }
-
-    return count;
+    return 0;
 }
 
 
@@ -82,7 +61,7 @@ int main(int argc, char* argv[])
             strcpy(file_name, "To learn.txt");
         else
             strcpy(file_name, argv[2]);
-
+        
 
     }
     else
@@ -107,6 +86,7 @@ int main(int argc, char* argv[])
         
         while(fgets(line, MAX_TO_READ, file) != NULL)
         {
+            printf("provided %s.", line);
             count += grep1(line, regex);
         }
         

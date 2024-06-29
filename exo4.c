@@ -66,7 +66,7 @@ char* lexAnal(char* string, int start, int end)
             strcat(output, sign);
             strcat(output, ">");
 
-            // Second part concatanation
+            // Second part concatenation
             strcpy(temp, lexAnal(string, i + 1, end));
             if(!strcmp(temp, "parsing error"))
                 return "parsing error1";
