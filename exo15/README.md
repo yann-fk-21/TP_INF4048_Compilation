@@ -1,0 +1,1 @@
+Pour l'analyse lancer la commande cat src.txt | ./exo15 dans le dossier exo15

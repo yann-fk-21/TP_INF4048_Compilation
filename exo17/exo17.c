@@ -1,3 +1,48 @@
+/* A Bison parser, made by GNU Bison 3.5.1.  */
+
+/* Bison implementation for Yacc-like parsers in C
+
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Inc.
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
+
+/* C LALR(1) parser skeleton written by Richard Stallman, by
+   simplifying the original so-called "semantic" parser.  */
+
+/* All symbols defined below should begin with yy or YY, to avoid
+   infringing on user name space.  This should be done even for local
+   variables, as they might otherwise be expanded by user macros.
+   There are some unavoidable exceptions within include files to
+   define necessary library symbols; they are noted "INFRINGES ON
+   USER NAME SPACE" below.  */
+
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
 
 /* Identify Bison output.  */
 #define YYBISON 1
@@ -21,16 +66,50 @@
 
 
 /* First part of user prologue.  */
-#line 1 "parser.y"
+#line 1 "exo17.y"
 
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include "simple.h"
+#include "stack.h"
+#define nbMax
+int compteurSi = 0, compteurTest = 0, compteurWhile = 0;
+FILE *yyout;
+int var[4];
+Stack p;
+int eax, ebx;
 
-void yyerror(const char *s);
-int yylex(void);
+int take(int address)
+{
+  return var[address -'a'];
+}
+void affec(int address)
+{
+  int val = pop(&p);
+  var[address -'a'] = val;
+}
+
+void add()
+{
+  eax = pop(&p);
+  ebx = pop(&p);
+  
+  push(&p, eax + ebx);
+  
+  printf("\tdans add : eax=%d ebx=%d prod=%d ",eax,ebx,eax + ebx);
+}
+
+void mult()
+{
+  eax = pop(&p);
+  ebx = pop(&p);
+  
+  push(&p,eax * ebx);
+  
+  printf("\tdans mult: eax=%d ebx=%d prod=%d ",eax,ebx,eax * ebx);
+}
 
 
-#line 79 "parser.tab.c"
+#line 113 "exo17.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -63,8 +142,8 @@ int yylex(void);
 
 /* Use api.header.include to #include this header
    instead of duplicating it here.  */
-#ifndef YY_YY_PARSER_TAB_H_INCLUDED
-# define YY_YY_PARSER_TAB_H_INCLUDED
+#ifndef YY_YY_SIMPLE_H_INCLUDED
+# define YY_YY_SIMPLE_H_INCLUDED
 /* Debug traces.  */
 #ifndef YYDEBUG
 # define YYDEBUG 0
@@ -78,9 +157,9 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    INT = 258,
-    PLUS = 259,
-    MULT = 260
+    INTEGER = 258,
+    PRINT = 259,
+    VARIABLE = 260
   };
 #endif
 
@@ -96,7 +175,7 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 
-#endif /* !YY_YY_PARSER_TAB_H_INCLUDED  */
+#endif /* !YY_YY_SIMPLE_H_INCLUDED  */
 
 
 
@@ -400,18 +479,18 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  3
+#define YYFINAL  9
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   8
+#define YYLAST   13
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  6
+#define YYNTOKENS  10
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  2
+#define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  4
+#define YYNRULES  13
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  8
+#define YYNSTATES  21
 
 #define YYUNDEFTOK  2
 #define YYMAXUTOK   260
@@ -430,9 +509,9 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     9,     8,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,     6,
+       2,     7,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -459,7 +538,8 @@ static const yytype_int8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    17,    17,    18,    19
+       0,    50,    50,    54,    57,    58,    63,    64,    68,    69,
+      73,    74,    77,    78
 };
 #endif
 
@@ -468,7 +548,9 @@ static const yytype_int8 yyrline[] =
    First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
-  "$end", "error", "$undefined", "INT", "PLUS", "MULT", "$accept", "E", YY_NULLPTR
+  "$end", "error", "$undefined", "INTEGER", "PRINT", "VARIABLE", "';'",
+  "'='", "'+'", "'*'", "$accept", "Program", "stat", "bloc", "instr", "E",
+  "T", "F", YY_NULLPTR
 };
 #endif
 
@@ -477,11 +559,11 @@ static const char *const yytname[] =
    (internal) symbol number NUM (which must be that of a token).  */
 static const yytype_int16 yytoknum[] =
 {
-       0,   256,   257,   258,   259,   260
+       0,   256,   257,   258,   259,   260,    59,    61,    43,    42
 };
 # endif
 
-#define YYPACT_NINF (-4)
+#define YYPACT_NINF (-9)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -495,7 +577,9 @@ static const yytype_int16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       5,    -4,     0,    -4,     5,     5,    -3,    -3
+      -1,    -4,    -2,     6,    -9,    -9,     1,    -9,    -3,    -9,
+      -1,    -9,    -9,     0,     2,    -9,    -9,    -3,    -3,     2,
+      -9
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -503,19 +587,21 @@ static const yytype_int8 yypact[] =
      means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     4,     0,     1,     0,     0,     2,     3
+       0,     0,     0,     0,     2,     3,     0,     7,     0,     1,
+       4,    12,    13,     6,     8,    10,     5,     0,     0,     9,
+      11
 };
 
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-      -4,     2
+      -9,    -9,    -9,     3,    -9,    -9,    -8,    -6
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-      -1,     2
+      -1,     3,     4,     5,     6,    13,    14,    15
 };
 
   /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -523,31 +609,37 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-       3,     4,     5,     0,     4,     5,     6,     7,     1
+      11,     7,    12,     1,     2,     8,     9,    10,    17,    19,
+       0,    18,    20,    16
 };
 
 static const yytype_int8 yycheck[] =
 {
-       0,     4,     5,    -1,     4,     5,     4,     5,     3
+       3,     5,     5,     4,     5,     7,     0,     6,     8,    17,
+      -1,     9,    18,    10
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     7,     0,     4,     5,     7,     7
+       0,     4,     5,    11,    12,    13,    14,     5,     7,     0,
+       6,     3,     5,    15,    16,    17,    13,     8,     9,    16,
+      17
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_int8 yyr1[] =
 {
-       0,     6,     7,     7,     7
+       0,    10,    11,    12,    13,    13,    14,    14,    15,    15,
+      16,    16,    17,    17
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     3,     3,     1
+       0,     2,     1,     1,     2,     3,     3,     2,     1,     3,
+       1,     3,     1,     1
 };
 
 
@@ -1243,25 +1335,55 @@ yyreduce:
   switch (yyn)
     {
   case 2:
-#line 17 "parser.y"
-             { printf("Reduction: E -> E + E\n"); }
-#line 1294 "parser.tab.c"
+#line 50 "exo17.y"
+            {printf("\n\n\t\t Correcte pour la syntaxe \n\n");}
+#line 1341 "exo17.c"
     break;
 
-  case 3:
-#line 18 "parser.y"
-             { printf("Reduction: E -> E * E\n"); }
-#line 1300 "parser.tab.c"
+  case 6:
+#line 63 "exo17.y"
+                     {affec(yyvsp[-2]); printf("\nRéduction instr ---> var = E ");}
+#line 1347 "exo17.c"
     break;
 
-  case 4:
-#line 19 "parser.y"
-             { printf("Reduction: E -> int\n"); }
-#line 1306 "parser.tab.c"
+  case 7:
+#line 64 "exo17.y"
+                      {printf("\nRéduction instr ---> print: %d", take(yyvsp[0]));}
+#line 1353 "exo17.c"
+    break;
+
+  case 8:
+#line 68 "exo17.y"
+    {printf("\nRéduction E ----> T    $$=%d",yyval); }
+#line 1359 "exo17.c"
+    break;
+
+  case 9:
+#line 69 "exo17.y"
+             {add(); printf("\nRéduction E ----> E + T    "); }
+#line 1365 "exo17.c"
+    break;
+
+  case 11:
+#line 74 "exo17.y"
+             {mult(); printf("\nRéduction T ----> T * F    "); }
+#line 1371 "exo17.c"
+    break;
+
+  case 12:
+#line 77 "exo17.y"
+            {push(&p, yyvsp[0]);printf("\nRéduction F ----> int"); }
+#line 1377 "exo17.c"
+    break;
+
+  case 13:
+#line 78 "exo17.y"
+                {push(&p, take(yyvsp[0])); printf("\nRéduction F ----> var");}
+#line 1383 "exo17.c"
     break;
 
 
-#line 1310 "parser.tab.c"
+#line 1387 "exo17.c"
 
       default: break;
     }
@@ -1493,18 +1615,23 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 22 "parser.y"
+#line 80 "exo17.y"
 
 
-void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+int main(void)
+{
+   
+ initStack(&p);
+ 
+ yyparse();
+  
+ return 0;
+
 }
 
-int main(void) {
-    if (yyparse() == 0) {
-        printf("Parsing completed successfully.\n");
-    } else {
-        printf("Parsing failed.\n");
-    }
-    return 0;
+
+int yyerror(char *str)
+{
+	printf("error parsing %s\n",str);
+	return 0;
 }
