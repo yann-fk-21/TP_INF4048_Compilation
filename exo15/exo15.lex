@@ -20,7 +20,4 @@ variable a|b|c|d
 
 %%
 
-/*flex -o tp7.yy.c tp7.lex
-gcc -pedantic -Wall -O2 exo15.yy.c -o exo15 -lfl
-utilisation : echo "12+6*8" | ./exo15 */
 
