@@ -1,5 +1,4 @@
 %{
-/*The execution of this program show  us well what contain $i(the rigth side of grammar prodction $1 is the first, $2 the second and so on) and $$ (the top of bison stack). We can also identify the reduce rule on which we will introduce semantic action if we want to evaluate expression*/
 #include<stdio.h>
 #include "simple.h"
 #define nbMax
