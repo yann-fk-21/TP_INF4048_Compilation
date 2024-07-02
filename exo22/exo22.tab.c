@@ -1389,6 +1389,12 @@ printf:\n\
 
 
 
+int yyerror(char *str)
+{
+	printf("error parsing %s\n",str);
+	return 0;
+}
+
 
 void print()
 {
