@@ -7,6 +7,7 @@ int yylex();
 "tchue"           { return write_token; }
 "ntep"            { return exit_command; }
 "mbeug"              { return if_token; }
+"nambeug"              { return fsi_token; }
 "tepaahpoh"            { return else_token; }
 "tehque"           { return while_token; }
 "mbowne"             { return for_token; }

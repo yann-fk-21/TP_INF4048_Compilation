@@ -13,15 +13,17 @@ void readSymbolVal(char symbol);
 char *header = "section .data\nA: dd 0\nB: dd 0\nC: dd 0\nD: dd 0\nfmt: db \"%d\", 10, 0\nfmtlec: db \"%d\", 0\nsection .text\nglobal _start\nextern printf\nextern scanf\n\n_start:\n\n";
 char *trailer = "mov eax, 1\nmov ebx, 0\nint 0x80\n";
 extern FILE *yyout;
-int compteurDo;
-int compteurFor;
-int compteurSi;
-int compteurWhile;
+int compteurDo = 0;
+int compteurFor = 0;
+int compteurSi = 0;
+int compteurTest = 0;
+int compteurWhile = 0;
+int sinonVu = 0;
 %}
 
 %union {int num; char id;}         
 %start program
-%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire
+%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token
 %token plus minus multiply divide mod
 %token less_than greater_than less_equal greater_equal equal
 %token assign plus_assign minus_assign multiply_assign divide_assign different
@@ -51,26 +53,37 @@ statement : assignment {printf("Statement: assignment\n");}
           | write_token identifier {printf("Statement: write_token identifier\n"); fprintf(yyout, "mov eax, [%c]\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n", $2);}
           ;
 
-if_statement : if_token left_paren condition right_paren then_token block
-              {
-                 fprintf(yyout, "; if statement\n");
-                 fprintf(yyout, "pop eax\n");
-                 fprintf(yyout, "cmp eax, 0\n");
-                 fprintf(yyout, "je si_end%d\n", compteurSi);
-                 fprintf(yyout, "mov eax, 1\n");
-                 fprintf(yyout, "si_end%d:\n", compteurSi);
-            
-              }
-              | if_token '(' condition ')' then_token block else_token block
-              {
-                fprintf(yyout, "; if-else statement\n");
-                fprintf(yyout, "pop eax\n");
-                fprintf(yyout, "cmp eax, 0\n");
-                fprintf(yyout, "jne if_body_%d\n", ++compteurSi);
-                fprintf(yyout, "jmp else_body_%d\n", compteurSi);
-                fprintf(yyout, "if_body_%d:\n", compteurSi);
-              }
+if_statement : if_token left_paren condition right_paren alors statement semicolon finsi 
+              | if_token left_paren condition right_paren alors statement semicolon sinon statement semicolon finsi
               ;
+
+finsi : fsi_token {
+            if(sinonVu) {
+                fprintf(yyout, "suite%d:\n", compteurSi);
+                fprintf(yyout, ";Réduction du fsis%d\n", compteurSi);
+                sinonVu = 0;
+            } else {
+                fprintf(yyout, "sinon%d:\n", compteurSi);
+                fprintf(yyout, ";Réduction du fsi%d\n", compteurSi);
+            }
+        }
+      ;
+      
+alors : then_token {
+            compteurSi++;
+            fprintf(yyout, ";Réduction du alors%d\n", compteurSi);
+            fprintf(yyout, "pop eax\n");
+            fprintf(yyout, "cmp eax, 1\n");
+            fprintf(yyout, "jne sinon%d\n", compteurSi);
+        }
+    ;
+
+sinon : else_token {
+            fprintf(yyout, "jmp suite%d\nsinon%d:\n", compteurSi, compteurSi);
+            fprintf(yyout, ";Réduction du sinon%d\n", compteurSi);
+            sinonVu = 1;
+        }
+    ;
 
 while_statement : while_token left_paren condition right_paren then_token block
                 {
@@ -143,50 +156,81 @@ assignment : identifier assign exp
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], edx\n", $1, $1);}
            ;
 
-condition : exp less_than exp {$$ = $1 < $3; printf("Condition: exp less_than exp\n"); 
-                printf("mov eax, %d\n", $1);
-                printf("cmp eax, %d\n", $3); 
-                printf("setl al\n"); 
-                printf("movzx eax, al\n");
+condition : exp less_than exp {$$ = $1 < $3;
+                printf("Condition: exp LESS_THAN exp\n");
+                compteurTest++;
+                fprintf(yyout, ";Teste d'infériorité\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, %d\n", $3);
+                fprintf(yyout, "jge test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
             }
-          | exp greater_than exp {$$ = $1 > $3; printf("Condition: exp greater_than exp\n"); printf("mov eax, %d\n", $1);
-                printf("cmp eax, %d\n", $3);
-                printf("setg al\n");
-                printf("movzx eax, al\n");}
-          | exp less_equal exp {$$ = $1 <= $3; printf("Condition: exp less_equal exp\n");printf("mov eax, %d\n", $1);
-                printf("cmp eax, %d\n", $3);
-                printf("setle al\n");
-                printf("movzx eax, al\n");}
-          | exp greater_equal exp {$$ = $1 >= $3; printf("Condition: exp greater_equal exp\n");printf("mov eax, %d\n", $1);
-                printf("cmp eax, %d\n", $3);
-                printf("setge al\n");
-                printf("movzx eax, al\n");}
-          | exp equal exp {$$ = $1 == $3; printf("Condition: exp equal exp\n");printf("mov eax, %d\n", $1);
-                printf("cmp eax, %d\n", $3);
-                printf("sete al\n");
-                printf("movzx eax, al\n");}
-          | exp different exp {$$ = $1 != $3; printf("Condition: exp different exp\n");printf("mov eax, %d\n", $1);
-                printf("cmp eax, %d\n", $3);
-                printf("setne al\n");
-                printf("movzx eax, al\n");}
-          | logical_not exp {$$ = !$2; printf("Condition: logical_not exp\n");printf("mov eax, %d\n", $2);
-                printf("cmp eax, 0\n");
-                printf("sete al\n");
-                printf("movzx eax, al\n");}
-          | exp logical_and exp {$$ = $1 && $3; printf("Condition: exp logical_and exp\n");printf("mov eax, %d\n", $1);
-                printf("cmp eax, 0\n");
-                printf("setne al\n");
-                printf("mov ebx, %d\n", $3);
-                printf("cmp ebx, 0\n");
-                printf("setne bl\n");
-                printf("and eax, ebx\n");}
-          | exp logical_or exp {$$ = $1 || $3; printf("Condition: exp logical_or exp\n");printf("mov eax, %d\n", $1);
-                printf("cmp eax, 0\n");
-                printf("setne al\n");
-                printf("mov ebx, %d\n", $3);
-                printf("cmp ebx, 0\n");
-                printf("setne bl\n");
-                printf("or eax, ebx\n");}
+          | exp greater_than exp {$$ = $1 > $3; 
+                printf("Condition: exp GREATER_THAN exp\n");
+                compteurTest++;
+                fprintf(yyout, ";Teste de superiorité\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, %d\n", $3);
+                fprintf(yyout, "jle test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+            }
+          | exp less_equal exp {$$ = $1 <= $3; 
+                printf("Condition: exp LESS_EQUAL exp\n");
+                compteurTest++;
+                fprintf(yyout, ";Teste d'infériorité ou égalité\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, %d\n", $3);
+                fprintf(yyout, "jg test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+            }
+          | exp greater_equal exp {$$ = $1 >= $3; 
+                    printf("Condition: exp GREATER_EQUAL exp\n");
+                    compteurTest++;
+                    fprintf(yyout, ";Teste de superiorité ou égalité\n");
+                    fprintf(yyout, "mov eax, %d\n", $1);
+                    fprintf(yyout, "cmp eax, %d\n", $3);
+                    fprintf(yyout, "jl test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+            }
+          | exp equal exp {$$ = $1 == $3; 
+                printf("Condition: exp EQUAL exp\n");
+                compteurTest++;
+                fprintf(yyout, ";Teste d'égalité\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, %d\n", $3);
+                fprintf(yyout, "jne test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+            }
+          | exp different exp {$$ = $1 != $3;
+                printf("Condition: exp DIFFERENT exp\n");
+                compteurTest++;
+                fprintf(yyout, ";Teste de différence\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, %d\n", $3);
+                fprintf(yyout, "je test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+            }
+          | logical_not exp {$$ = !$2; 
+                printf("Condition: LOGICAL_NOT exp\n");
+                fprintf(yyout, "mov eax, %d\n", $2);
+                fprintf(yyout, "cmp eax, 0\n");
+                fprintf(yyout, "sete al\n");
+                fprintf(yyout, "movzx eax, al\n");
+            }
+          | exp logical_and exp {$$ = $1 && $3; 
+                printf("Condition: exp LOGICAL_AND exp\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, 0\n");
+                fprintf(yyout, "setne al\n");
+                fprintf(yyout, "mov ebx, %d\n", $3);
+                fprintf(yyout, "cmp ebx, 0\n");
+                fprintf(yyout, "setne bl\n");
+                fprintf(yyout, "and eax, ebx\n");
+            }
+          | exp logical_or exp {$$ = $1 || $3; 
+                printf("Condition: exp LOGICAL_OR exp\n");
+                fprintf(yyout, "mov eax, %d\n", $1);
+                fprintf(yyout, "cmp eax, 0\n");
+                fprintf(yyout, "setne al\n");
+                fprintf(yyout, "mov ebx, %d\n", $3);
+                fprintf(yyout, "cmp ebx, 0\n");
+                fprintf(yyout, "setne bl\n");
+                fprintf(yyout, "or eax, ebx\n");
+            }
           ;
 
 exp : term {$$ = $1; printf("Exp: term\n");}
