@@ -29,7 +29,11 @@ char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 
 %union {int num; char id;}         
 %start program
+<<<<<<< HEAD
 %token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token endwhile_token
+=======
+%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token fsi_token
+>>>>>>> 14f0623 (For loop done.)
 %token plus minus multiply divide mod
 %token less_than greater_than less_equal greater_equal equal
 %token assign plus_assign minus_assign multiply_assign divide_assign different
@@ -145,24 +149,54 @@ finDoWhile : {
 };
 
 
-for_statement : for_token left_paren assignment semicolon condition semicolon assignment right_paren then_token block  
+for_statement : for_token left_paren init_assignement semicolon condition_for semicolon assignment right_paren do block
               {
-                fprintf(yyout, "; for loop\n");
-                fprintf(yyout, "; Initialization\n");
-                fprintf(yyout, "pop eax\n");
-                fprintf(yyout, "cmp eax, 0\n");
-                fprintf(yyout, "je for_end%d\n", compteurFor);
-                fprintf(yyout, "; Block start\n");
-                fprintf(yyout, "; Increment\n");
-                fprintf(yyout, "jmp for_init%d\n", compteurFor);
-                fprintf(yyout, "for_end%d:\n", compteurFor);
+
+                    fprintf(yyout, "; Block end\n");
+                    fprintf(yyout, "; Increment iterator\n");
+                    fprintf(yyout, "jmp next_iterator%d\n", compteurFor);
+                    fprintf(yyout, "for_end%d:\n", compteurFor);
+                    fprintf(yyout, "; End of for loop\n");
+                    printf("Reduction of for loop....\n");
               }  
               ;           
-          
+
+
+
+init_assignement : assignment {
+                    printf("Initializing loop iterator\n");
+                    fprintf(yyout, "mov rbx, eax        ; rbx is now the initialization value of the the init_assignement\n");
+                }
+
+
+condition_for : condition 
+                {
+                    fprintf(yyout, "jmp condition_check%d\n", compteurFor);
+                    fprintf(yyout, "; Increment iterator\n");
+                    fprintf(yyout, "next_iterator%d:", compteurFor);
+                }
+
+
+
+do : then_token
+                {
+                    fprintf(yyout, "; for loop\n");
+                    fprintf(yyout, "; Initialization\n");
+                    fprintf(yyout, "; Condition check\n");
+                    fprintf(yyout, "condition_check%d:\n", compteurFor);
+                    fprintf(yyout, "pop eax             ; eax is now the boolean value of the condition\n");
+                    fprintf(yyout, "cmp eax, 0\n");
+                    fprintf(yyout, "je for_end%d        ; Jump to the end of the for loop if the condition is no longer true\n", compteurFor);
+                    fprintf(yyout, "; Block start\n");
+                }
+
+
 
 block : left_block program right_block {printf("Block: { program }\n");}
       | statement {printf("Block: statement\n");}
       ;
+
+
 
 assignment : identifier assign exp
               {printf("Assignment: identifier assign exp\n"); updateSymbolVal($1, $3); fprintf(yyout, "pop eax\nmov [%c], eax\n", $1);}

@@ -1,0 +1,17 @@
+A=4;
+tchie B;
+tchie C;
+
+mouah A;
+mbeug(A<=2)then
+    mouah A ;
+    tepaahpoh mouah B;
+nambeug;
+
+
+mbowne(i = 0; i < 5; i += 1)
+{
+    tchue i;
+}
+
+tchue 1;
