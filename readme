@@ -1,5 +1,5 @@
 
 Executez les commandes suivantes 
 
-1-  nasm -f elf -o hello-world.o hello-world.asm
-2-  ld -s -o hello-world hello-world.o -melf_i386 -I/lib/ld-linux.so.2 -lc
+1-  nasm -f elf64 -o hello-world.o hello-world.asm
+2-  ld -o hello-world hello-world.o
