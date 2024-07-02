@@ -70,13 +70,14 @@
 #line 1 "exo21.y"
 
 #include<stdio.h>
+#include<string.h>
 #include "simple.h"
 #define nbMax
 #define YYSTYPE int
 
 void emit(char* opcode, int operand);
 
-#line 80 "exo21.tab.c"
+#line 81 "exo21.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -500,7 +501,7 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    14,    14,    17,    18,    21,    22,    25
+       0,    15,    15,    18,    19,    22,    23,    26
 };
 #endif
 
@@ -1060,43 +1061,43 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* S: E  */
-#line 14 "exo21.y"
-        {printf("\n Réduction S ----> E    Fin!!!\n"); }
-#line 1066 "exo21.tab.c"
+#line 15 "exo21.y"
+        {/* Réduction S ----> E    Fin!!!*/ }
+#line 1067 "exo21.tab.c"
     break;
 
   case 3: /* E: E '+' T  */
-#line 17 "exo21.y"
+#line 18 "exo21.y"
           {emit("ADD", yyvsp[0]); }
-#line 1072 "exo21.tab.c"
+#line 1073 "exo21.tab.c"
     break;
 
   case 4: /* E: T  */
-#line 18 "exo21.y"
+#line 19 "exo21.y"
           {/* Nothing to do here */ }
-#line 1078 "exo21.tab.c"
+#line 1079 "exo21.tab.c"
     break;
 
   case 5: /* T: T '*' F  */
-#line 21 "exo21.y"
+#line 22 "exo21.y"
           {emit("MUL", yyvsp[0]); }
-#line 1084 "exo21.tab.c"
+#line 1085 "exo21.tab.c"
     break;
 
   case 6: /* T: F  */
-#line 22 "exo21.y"
+#line 23 "exo21.y"
           {/* Nothing to do here */ }
-#line 1090 "exo21.tab.c"
+#line 1091 "exo21.tab.c"
     break;
 
   case 7: /* F: INTEGER  */
-#line 25 "exo21.y"
+#line 26 "exo21.y"
           {emit("PUSH", yyvsp[0]); }
-#line 1096 "exo21.tab.c"
+#line 1097 "exo21.tab.c"
     break;
 
 
-#line 1100 "exo21.tab.c"
+#line 1101 "exo21.tab.c"
 
       default: break;
     }
@@ -1289,14 +1290,33 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 27 "exo21.y"
+#line 28 "exo21.y"
 
 
 int main(void)
 {
   
- yyparse();
+  printf("\n\
+section .data\n\
+\n\
+section .text\n\
+    global _start\n\
+\n\
+_start:\n\n"
+  );
+
+
+  yyparse();
   
+
+printf(
+"\n; Exit the program\n\
+    mov rax, 60   ; System call number for sys_exit\n\
+    xor rdi, rdi  ; Exit code 0\n\
+    syscall       ; Call the kernel\n"
+  );
+
+
  return 0;
  
 }
@@ -1309,6 +1329,26 @@ int yyerror(char *str)
 
 void emit(char* opcode, int operand)
 {
-    printf("%s %d\n", opcode, operand);
+
+  if(!strcmp(opcode, "PUSH"))
+    printf("PUSH %d\n", operand);
+
+  else if(!strcmp(opcode, "ADD"))
+
+    printf("\n\
+POP rax\n\
+POP rbx\n\
+ADD rax, rbx\n\
+PUSH rax\n");
+
+  else
+
+    printf("\n\
+POP rax\n\
+POP rbx\n\
+MUL rbx\n\
+PUSH rax\n");
+
+
 }
 

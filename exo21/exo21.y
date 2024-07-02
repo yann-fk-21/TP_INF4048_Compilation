@@ -1,5 +1,6 @@
 %{
 #include<stdio.h>
+#include<string.h>
 #include "simple.h"
 #define nbMax
 #define YYSTYPE int
@@ -11,7 +12,7 @@ void emit(char* opcode, int operand);
 
 %%
 S:
-  E	{printf("\n Réduction S ----> E    Fin!!!\n"); }
+  E	{/* Réduction S ----> E    Fin!!!*/ }
 
 E:
   E '+' T {emit("ADD", $3); }
@@ -29,8 +30,27 @@ F:
 int main(void)
 {
   
- yyparse();
+  printf("\n\
+section .data\n\
+\n\
+section .text\n\
+    global _start\n\
+\n\
+_start:\n\n"
+  );
+
+
+  yyparse();
   
+
+  printf(
+"\n; Exit the program\n\
+    mov rax, 60   ; System call number for sys_exit\n\
+    xor rdi, rdi  ; Exit code 0\n\
+    syscall       ; Call the kernel\n"
+  );
+
+
  return 0;
  
 }
@@ -43,6 +63,26 @@ int yyerror(char *str)
 
 void emit(char* opcode, int operand)
 {
-    printf("%s %d\n", opcode, operand);
+
+  if(!strcmp(opcode, "PUSH"))
+    printf("PUSH %d\n", operand);
+
+  else if(!strcmp(opcode, "ADD"))
+
+    printf("\n\
+POP rax\n\
+POP rbx\n\
+ADD rax, rbx\n\
+PUSH rax\n");
+
+  else
+
+    printf("\n\
+POP rax\n\
+POP rbx\n\
+MUL rbx\n\
+PUSH rax\n");
+
+
 }
 
