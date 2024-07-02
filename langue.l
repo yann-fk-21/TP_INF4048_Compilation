@@ -10,6 +10,7 @@ int yylex();
 "nambeug"              { return fsi_token; }
 "tepaahpoh"            { return else_token; }
 "tehque"           { return while_token; }
+"natehque"           { return endwhile_token; }
 "mbowne"             { return for_token; }
 "tchie"            { return read_token; }
 "mouah"           { return write_token; }

@@ -1,11 +1,10 @@
-A=4;
-tchie B;
-tchie C;
+A=15;
+B=6;
 
-mouah A;
-mbeug(A<=2)then
-    mouah A ;
-    tepaahpoh mouah B;
-nambeug;
+tehque (A>6) then
+    A =  A-1;
+    mouah A;
+natehque;    
+
 
 

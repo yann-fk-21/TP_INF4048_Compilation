@@ -89,8 +89,14 @@ int compteurSi = 0;
 int compteurTest = 0;
 int compteurWhile = 0;
 int sinonVu = 0;
+char *cmpEgal;
+char *testGene;
+char *cmpDifferent;
+char *cmpSuperieur;
+char *cmpInferieur;
+char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 
-#line 94 "y.tab.c"
+#line 100 "y.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -146,32 +152,33 @@ extern int yydebug;
     write_token = 267,             /* write_token  */
     faire = 268,                   /* faire  */
     fsi_token = 269,               /* fsi_token  */
-    plus = 270,                    /* plus  */
-    minus = 271,                   /* minus  */
-    multiply = 272,                /* multiply  */
-    divide = 273,                  /* divide  */
-    mod = 274,                     /* mod  */
-    less_than = 275,               /* less_than  */
-    greater_than = 276,            /* greater_than  */
-    less_equal = 277,              /* less_equal  */
-    greater_equal = 278,           /* greater_equal  */
-    equal = 279,                   /* equal  */
-    assign = 280,                  /* assign  */
-    plus_assign = 281,             /* plus_assign  */
-    minus_assign = 282,            /* minus_assign  */
-    multiply_assign = 283,         /* multiply_assign  */
-    divide_assign = 284,           /* divide_assign  */
-    different = 285,               /* different  */
-    logical_and = 286,             /* logical_and  */
-    logical_or = 287,              /* logical_or  */
-    logical_not = 288,             /* logical_not  */
-    left_paren = 289,              /* left_paren  */
-    right_paren = 290,             /* right_paren  */
-    left_block = 291,              /* left_block  */
-    right_block = 292,             /* right_block  */
-    semicolon = 293,               /* semicolon  */
-    number = 294,                  /* number  */
-    identifier = 295               /* identifier  */
+    endwhile_token = 270,          /* endwhile_token  */
+    plus = 271,                    /* plus  */
+    minus = 272,                   /* minus  */
+    multiply = 273,                /* multiply  */
+    divide = 274,                  /* divide  */
+    mod = 275,                     /* mod  */
+    less_than = 276,               /* less_than  */
+    greater_than = 277,            /* greater_than  */
+    less_equal = 278,              /* less_equal  */
+    greater_equal = 279,           /* greater_equal  */
+    equal = 280,                   /* equal  */
+    assign = 281,                  /* assign  */
+    plus_assign = 282,             /* plus_assign  */
+    minus_assign = 283,            /* minus_assign  */
+    multiply_assign = 284,         /* multiply_assign  */
+    divide_assign = 285,           /* divide_assign  */
+    different = 286,               /* different  */
+    logical_and = 287,             /* logical_and  */
+    logical_or = 288,              /* logical_or  */
+    logical_not = 289,             /* logical_not  */
+    left_paren = 290,              /* left_paren  */
+    right_paren = 291,             /* right_paren  */
+    left_block = 292,              /* left_block  */
+    right_block = 293,             /* right_block  */
+    semicolon = 294,               /* semicolon  */
+    number = 295,                  /* number  */
+    identifier = 296               /* identifier  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -192,41 +199,42 @@ extern int yydebug;
 #define write_token 267
 #define faire 268
 #define fsi_token 269
-#define plus 270
-#define minus 271
-#define multiply 272
-#define divide 273
-#define mod 274
-#define less_than 275
-#define greater_than 276
-#define less_equal 277
-#define greater_equal 278
-#define equal 279
-#define assign 280
-#define plus_assign 281
-#define minus_assign 282
-#define multiply_assign 283
-#define divide_assign 284
-#define different 285
-#define logical_and 286
-#define logical_or 287
-#define logical_not 288
-#define left_paren 289
-#define right_paren 290
-#define left_block 291
-#define right_block 292
-#define semicolon 293
-#define number 294
-#define identifier 295
+#define endwhile_token 270
+#define plus 271
+#define minus 272
+#define multiply 273
+#define divide 274
+#define mod 275
+#define less_than 276
+#define greater_than 277
+#define less_equal 278
+#define greater_equal 279
+#define equal 280
+#define assign 281
+#define plus_assign 282
+#define minus_assign 283
+#define multiply_assign 284
+#define divide_assign 285
+#define different 286
+#define logical_and 287
+#define logical_or 288
+#define logical_not 289
+#define left_paren 290
+#define right_paren 291
+#define left_block 292
+#define right_block 293
+#define semicolon 294
+#define number 295
+#define identifier 296
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 24 "langue1.y"
+#line 30 "langue1.y"
 int num; char id;
 
-#line 230 "y.tab.c"
+#line 238 "y.tab.c"
 
 };
 typedef union YYSTYPE YYSTYPE;
@@ -261,48 +269,54 @@ enum yysymbol_kind_t
   YYSYMBOL_write_token = 12,               /* write_token  */
   YYSYMBOL_faire = 13,                     /* faire  */
   YYSYMBOL_fsi_token = 14,                 /* fsi_token  */
-  YYSYMBOL_plus = 15,                      /* plus  */
-  YYSYMBOL_minus = 16,                     /* minus  */
-  YYSYMBOL_multiply = 17,                  /* multiply  */
-  YYSYMBOL_divide = 18,                    /* divide  */
-  YYSYMBOL_mod = 19,                       /* mod  */
-  YYSYMBOL_less_than = 20,                 /* less_than  */
-  YYSYMBOL_greater_than = 21,              /* greater_than  */
-  YYSYMBOL_less_equal = 22,                /* less_equal  */
-  YYSYMBOL_greater_equal = 23,             /* greater_equal  */
-  YYSYMBOL_equal = 24,                     /* equal  */
-  YYSYMBOL_assign = 25,                    /* assign  */
-  YYSYMBOL_plus_assign = 26,               /* plus_assign  */
-  YYSYMBOL_minus_assign = 27,              /* minus_assign  */
-  YYSYMBOL_multiply_assign = 28,           /* multiply_assign  */
-  YYSYMBOL_divide_assign = 29,             /* divide_assign  */
-  YYSYMBOL_different = 30,                 /* different  */
-  YYSYMBOL_logical_and = 31,               /* logical_and  */
-  YYSYMBOL_logical_or = 32,                /* logical_or  */
-  YYSYMBOL_logical_not = 33,               /* logical_not  */
-  YYSYMBOL_left_paren = 34,                /* left_paren  */
-  YYSYMBOL_right_paren = 35,               /* right_paren  */
-  YYSYMBOL_left_block = 36,                /* left_block  */
-  YYSYMBOL_right_block = 37,               /* right_block  */
-  YYSYMBOL_semicolon = 38,                 /* semicolon  */
-  YYSYMBOL_number = 39,                    /* number  */
-  YYSYMBOL_identifier = 40,                /* identifier  */
-  YYSYMBOL_YYACCEPT = 41,                  /* $accept  */
-  YYSYMBOL_program = 42,                   /* program  */
-  YYSYMBOL_line = 43,                      /* line  */
-  YYSYMBOL_statement = 44,                 /* statement  */
-  YYSYMBOL_if_statement = 45,              /* if_statement  */
-  YYSYMBOL_finsi = 46,                     /* finsi  */
-  YYSYMBOL_alors = 47,                     /* alors  */
-  YYSYMBOL_sinon = 48,                     /* sinon  */
-  YYSYMBOL_while_statement = 49,           /* while_statement  */
-  YYSYMBOL_do_statement = 50,              /* do_statement  */
-  YYSYMBOL_for_statement = 51,             /* for_statement  */
-  YYSYMBOL_block = 52,                     /* block  */
-  YYSYMBOL_assignment = 53,                /* assignment  */
-  YYSYMBOL_condition = 54,                 /* condition  */
-  YYSYMBOL_exp = 55,                       /* exp  */
-  YYSYMBOL_term = 56                       /* term  */
+  YYSYMBOL_endwhile_token = 15,            /* endwhile_token  */
+  YYSYMBOL_plus = 16,                      /* plus  */
+  YYSYMBOL_minus = 17,                     /* minus  */
+  YYSYMBOL_multiply = 18,                  /* multiply  */
+  YYSYMBOL_divide = 19,                    /* divide  */
+  YYSYMBOL_mod = 20,                       /* mod  */
+  YYSYMBOL_less_than = 21,                 /* less_than  */
+  YYSYMBOL_greater_than = 22,              /* greater_than  */
+  YYSYMBOL_less_equal = 23,                /* less_equal  */
+  YYSYMBOL_greater_equal = 24,             /* greater_equal  */
+  YYSYMBOL_equal = 25,                     /* equal  */
+  YYSYMBOL_assign = 26,                    /* assign  */
+  YYSYMBOL_plus_assign = 27,               /* plus_assign  */
+  YYSYMBOL_minus_assign = 28,              /* minus_assign  */
+  YYSYMBOL_multiply_assign = 29,           /* multiply_assign  */
+  YYSYMBOL_divide_assign = 30,             /* divide_assign  */
+  YYSYMBOL_different = 31,                 /* different  */
+  YYSYMBOL_logical_and = 32,               /* logical_and  */
+  YYSYMBOL_logical_or = 33,                /* logical_or  */
+  YYSYMBOL_logical_not = 34,               /* logical_not  */
+  YYSYMBOL_left_paren = 35,                /* left_paren  */
+  YYSYMBOL_right_paren = 36,               /* right_paren  */
+  YYSYMBOL_left_block = 37,                /* left_block  */
+  YYSYMBOL_right_block = 38,               /* right_block  */
+  YYSYMBOL_semicolon = 39,                 /* semicolon  */
+  YYSYMBOL_number = 40,                    /* number  */
+  YYSYMBOL_identifier = 41,                /* identifier  */
+  YYSYMBOL_YYACCEPT = 42,                  /* $accept  */
+  YYSYMBOL_program = 43,                   /* program  */
+  YYSYMBOL_line = 44,                      /* line  */
+  YYSYMBOL_statement = 45,                 /* statement  */
+  YYSYMBOL_dstatement = 46,                /* dstatement  */
+  YYSYMBOL_if_statement = 47,              /* if_statement  */
+  YYSYMBOL_finsi = 48,                     /* finsi  */
+  YYSYMBOL_alors = 49,                     /* alors  */
+  YYSYMBOL_sinon = 50,                     /* sinon  */
+  YYSYMBOL_while_statement = 51,           /* while_statement  */
+  YYSYMBOL_debutWhile = 52,                /* debutWhile  */
+  YYSYMBOL_expbool = 53,                   /* expbool  */
+  YYSYMBOL_blocInWhile = 54,               /* blocInWhile  */
+  YYSYMBOL_finWhile = 55,                  /* finWhile  */
+  YYSYMBOL_do_statement = 56,              /* do_statement  */
+  YYSYMBOL_for_statement = 57,             /* for_statement  */
+  YYSYMBOL_block = 58,                     /* block  */
+  YYSYMBOL_assignment = 59,                /* assignment  */
+  YYSYMBOL_condition = 60,                 /* condition  */
+  YYSYMBOL_exp = 61,                       /* exp  */
+  YYSYMBOL_term = 62                       /* term  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -630,19 +644,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  38
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   149
+#define YYLAST   176
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  41
+#define YYNTOKENS  42
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  16
+#define YYNNTS  21
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  47
+#define YYNRULES  57
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  110
+#define YYNSTATES  119
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   295
+#define YYMAXUTOK   296
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -685,18 +699,19 @@ static const yytype_int8 yytranslate[] =
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
       25,    26,    27,    28,    29,    30,    31,    32,    33,    34,
-      35,    36,    37,    38,    39,    40
+      35,    36,    37,    38,    39,    40,    41
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    38,    38,    39,    42,    43,    46,    47,    48,    49,
-      50,    51,    52,    53,    56,    57,    60,    72,    81,    88,
-     102,   111,   126,   127,   130,   132,   137,   142,   147,   152,
-     159,   167,   175,   183,   191,   199,   207,   214,   224,   236,
-     237,   238,   239,   240,   241,   242,   245,   246
+       0,    44,    44,    45,    48,    49,    52,    53,    54,    55,
+      56,    57,    58,    59,    62,    63,    65,    66,    69,    81,
+      90,    97,    98,   100,   106,   111,   112,   113,   114,   117,
+     125,   134,   149,   150,   153,   155,   160,   165,   170,   175,
+     182,   188,   194,   200,   206,   212,   219,   226,   236,   248,
+     249,   250,   251,   252,   253,   254,   257,   258
 };
 #endif
 
@@ -715,14 +730,16 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "print",
   "exit_command", "if_token", "else_token", "while_token", "for_token",
   "do_token", "then_token", "read_token", "write_token", "faire",
-  "fsi_token", "plus", "minus", "multiply", "divide", "mod", "less_than",
-  "greater_than", "less_equal", "greater_equal", "equal", "assign",
-  "plus_assign", "minus_assign", "multiply_assign", "divide_assign",
-  "different", "logical_and", "logical_or", "logical_not", "left_paren",
-  "right_paren", "left_block", "right_block", "semicolon", "number",
-  "identifier", "$accept", "program", "line", "statement", "if_statement",
-  "finsi", "alors", "sinon", "while_statement", "do_statement",
-  "for_statement", "block", "assignment", "condition", "exp", "term", YY_NULLPTR
+  "fsi_token", "endwhile_token", "plus", "minus", "multiply", "divide",
+  "mod", "less_than", "greater_than", "less_equal", "greater_equal",
+  "equal", "assign", "plus_assign", "minus_assign", "multiply_assign",
+  "divide_assign", "different", "logical_and", "logical_or", "logical_not",
+  "left_paren", "right_paren", "left_block", "right_block", "semicolon",
+  "number", "identifier", "$accept", "program", "line", "statement",
+  "dstatement", "if_statement", "finsi", "alors", "sinon",
+  "while_statement", "debutWhile", "expbool", "blocInWhile", "finWhile",
+  "do_statement", "for_statement", "block", "assignment", "condition",
+  "exp", "term", YY_NULLPTR
 };
 
 static const char *
@@ -732,31 +749,32 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-82)
+#define YYPACT_NINF (-86)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
 
-#define YYTABLE_NINF (-1)
+#define YYTABLE_NINF (-27)
 
 #define yytable_value_is_error(Yyn) \
   0
 
 /* YYPACT[STATE-NUM] -- Index in YYTABLE of the portion describing
    STATE-NUM.  */
-static const yytype_int8 yypact[] =
+static const yytype_int16 yypact[] =
 {
-      82,    99,   -34,   -27,   -16,   -13,    96,    11,    12,    10,
-       8,   -82,    -4,   -82,   -82,   -82,   -82,   -82,    95,   -82,
-     -82,   125,   -82,   -82,    95,    95,    13,    82,   -82,    33,
-     -82,   -82,    99,    99,    99,    99,    99,    99,   -82,   -82,
-     -82,    99,    14,    94,    -7,    -7,    -7,    -7,    -7,    26,
-      30,    16,    19,    34,   125,   125,   125,   125,   125,   125,
-     125,   -82,    99,    99,    99,    99,    99,    99,    99,    99,
-     -82,   -82,   -82,   -82,   -82,    59,    69,    95,   -82,    95,
-     125,   125,   125,   125,   125,   125,   125,   125,   -82,    55,
-      96,    42,    46,    44,   -82,    13,    50,     0,    57,   -82,
-     -82,   -82,   -82,    55,    86,    60,    96,    88,   -82,   -82
+      75,    73,   -32,   -26,   -86,   -14,    85,   -18,   -13,   135,
+       8,   -86,    14,   -86,   -86,   -86,   -86,   -86,    20,   -86,
+     -86,   150,   -86,   -86,    20,    21,    17,    75,   -86,    55,
+     -86,   -86,    73,    73,    73,    73,    73,    73,   -86,   -86,
+     -86,    73,    35,   127,   -15,   -15,   -15,   -15,   -15,    37,
+      20,    42,    36,    40,   150,   150,   150,   150,   150,   150,
+     150,   -86,    73,    73,    73,    73,    73,    73,    73,    73,
+     -86,   -86,   -86,   -86,   -86,    66,    49,   -86,    20,   -86,
+      20,   150,   150,   150,   150,   150,   150,   150,   150,   -86,
+     130,    79,    52,    59,    60,    18,   130,    17,    62,   130,
+     -86,   -86,   -86,   130,    95,   116,    90,    76,   -86,   -86,
+      97,   -86,   -86,   -86,   -86,    99,   -86,    85,   -86
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -764,31 +782,34 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     2,     0,     8,     9,    10,    11,     6,     0,    46,
-      47,     7,    39,     5,     0,     0,     0,     0,    23,     0,
+      21,     0,     0,     0,    23,     0,     0,     0,     0,     0,
+      21,     2,     0,     8,     9,    10,    11,     6,     0,    56,
+      57,     7,    49,     5,     0,     0,     0,    21,    33,     0,
       12,    13,     0,     0,     0,     0,     0,     0,     1,     3,
        4,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,    29,    24,    25,    26,    27,    28,
-      36,    45,     0,     0,     0,     0,     0,     0,     0,     0,
-      40,    41,    42,    43,    44,     0,     0,     0,    22,     0,
-      30,    31,    32,    33,    34,    35,    37,    38,    17,     0,
-       0,     0,     0,     0,    19,     0,     0,     0,     0,    20,
-      18,    16,    14,     0,     0,     0,     0,     0,    21,    15
+       0,     0,    21,     0,    39,    34,    35,    36,    37,    38,
+      46,    55,     0,     0,     0,     0,     0,     0,     0,     0,
+      50,    51,    52,    53,    54,     0,     0,    24,     0,    32,
+       0,    40,    41,    42,    43,    44,    45,    47,    48,    19,
+      21,     0,     0,     0,     0,     0,    21,     0,     0,    14,
+      20,    18,    16,    21,    21,     8,     0,     0,    30,    15,
+       0,    28,    27,    29,    22,     0,    17,    21,    31
 };
 
 /* YYPGOTO[NTERM-NUM].  */
-static const yytype_int8 yypgoto[] =
+static const yytype_int16 yypgoto[] =
 {
-     -82,    79,    -5,    -6,   -82,    20,   -82,   -82,   -82,   -82,
-     -82,   -81,   -25,   -22,     9,   101
+     -86,    88,    -6,     0,   -85,   -74,    10,   -86,   -86,   -86,
+     -86,   -86,   -54,   -86,   -86,   -86,    12,   -25,   -21,     1,
+     128
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,    10,    11,    12,    13,   102,    89,   103,    14,    15,
-      16,    29,    17,    42,    43,    22
+       0,    10,    11,    94,   104,    13,   102,    90,   103,    14,
+      25,    76,   106,   114,    15,    16,    29,    17,    42,    43,
+      22
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -796,74 +817,83 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      28,    51,    49,    50,    23,    39,   100,    24,    38,    94,
-      21,     1,     2,     3,   101,     4,     5,     6,    25,     7,
-       8,    26,     1,     2,     3,   108,     4,     5,     6,    32,
-       7,     8,    19,    20,    40,    33,    34,    35,    36,    37,
-      53,    54,    55,    56,    57,    58,    59,    39,     9,    61,
-      60,    30,    31,     9,    77,    91,    78,    92,     1,     9,
-       3,    75,     4,     5,     6,    76,     7,     8,    79,    88,
-      98,    80,    81,    82,    83,    84,    85,    86,    87,    90,
-      95,    96,    97,    93,    28,     1,     2,     3,    99,     4,
-       5,     6,   104,     7,     8,     9,   106,   105,   107,     1,
-      28,     3,   101,     4,     5,     6,    52,     7,     8,    44,
-      45,    46,    47,    48,    62,    63,    64,    65,    66,     0,
-       0,     0,     9,     0,    67,    68,    69,   109,    41,    18,
-       0,     0,    27,    18,    19,    20,     9,     0,    19,    20,
-      44,    45,    46,    47,    48,    70,    71,    72,    73,    74
+      12,    51,    21,    49,    39,    95,    28,    23,    38,    24,
+      12,     1,     2,     3,   109,     4,     5,     6,   110,     7,
+       8,    26,   105,    30,   100,    19,    20,    12,    31,    77,
+     105,   105,   101,    54,    55,    56,    57,    58,    59,     1,
+       2,     3,    60,     4,     5,     6,    39,     7,     8,     9,
+     111,   112,    12,    40,    41,    18,    50,    92,     9,    93,
+      19,    20,    53,    81,    82,    83,    84,    85,    86,    87,
+      88,    61,   107,    75,    79,    80,    89,     9,     1,     2,
+       3,    78,     4,     5,     6,    91,     7,     8,     1,    96,
+       3,    97,     4,     5,     6,    98,     7,     8,     1,    99,
+       3,   108,     4,     5,     6,   113,     7,     8,    18,   117,
+     -25,   101,   115,    19,    20,    52,     9,    28,     0,     1,
+     116,     3,    27,     4,     5,     6,     9,     7,     8,   118,
+       0,   -26,     0,     1,     0,     3,     9,     4,     5,     6,
+       0,     7,     8,    44,    45,    46,    47,    48,    62,    63,
+      64,    65,    66,     0,     0,    32,     0,     9,    67,    68,
+      69,    33,    34,    35,    36,    37,    44,    45,    46,    47,
+      48,     9,    70,    71,    72,    73,    74
 };
 
 static const yytype_int8 yycheck[] =
 {
-       6,    26,    24,    25,    38,    10,     6,    34,     0,    90,
-       1,     3,     4,     5,    14,     7,     8,     9,    34,    11,
-      12,    34,     3,     4,     5,   106,     7,     8,     9,    19,
-      11,    12,    39,    40,    38,    25,    26,    27,    28,    29,
-       7,    32,    33,    34,    35,    36,    37,    52,    40,    35,
-      41,    40,    40,    40,    38,    77,    37,    79,     3,    40,
-       5,    35,     7,     8,     9,    35,    11,    12,    34,    10,
-      95,    62,    63,    64,    65,    66,    67,    68,    69,    10,
-      38,    35,    38,    89,    90,     3,     4,     5,    38,     7,
-       8,     9,    35,    11,    12,    40,    10,   103,    38,     3,
-     106,     5,    14,     7,     8,     9,    27,    11,    12,    15,
-      16,    17,    18,    19,    20,    21,    22,    23,    24,    -1,
-      -1,    -1,    40,    -1,    30,    31,    32,   107,    33,    34,
-      -1,    -1,    36,    34,    39,    40,    40,    -1,    39,    40,
-      15,    16,    17,    18,    19,    44,    45,    46,    47,    48
+       0,    26,     1,    24,    10,    90,     6,    39,     0,    35,
+      10,     3,     4,     5,    99,     7,     8,     9,   103,    11,
+      12,    35,    96,    41,     6,    40,    41,    27,    41,    50,
+     104,   105,    14,    32,    33,    34,    35,    36,    37,     3,
+       4,     5,    41,     7,     8,     9,    52,    11,    12,    41,
+     104,   105,    52,    39,    34,    35,    35,    78,    41,    80,
+      40,    41,     7,    62,    63,    64,    65,    66,    67,    68,
+      69,    36,    97,    36,    38,    35,    10,    41,     3,     4,
+       5,    39,     7,     8,     9,    36,    11,    12,     3,    10,
+       5,    39,     7,     8,     9,    36,    11,    12,     3,    39,
+       5,    39,     7,     8,     9,    15,    11,    12,    35,    10,
+      15,    14,    36,    40,    41,    27,    41,   117,    -1,     3,
+     110,     5,    37,     7,     8,     9,    41,    11,    12,   117,
+      -1,    15,    -1,     3,    -1,     5,    41,     7,     8,     9,
+      -1,    11,    12,    16,    17,    18,    19,    20,    21,    22,
+      23,    24,    25,    -1,    -1,    20,    -1,    41,    31,    32,
+      33,    26,    27,    28,    29,    30,    16,    17,    18,    19,
+      20,    41,    44,    45,    46,    47,    48
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     5,     7,     8,     9,    11,    12,    40,
-      42,    43,    44,    45,    49,    50,    51,    53,    34,    39,
-      40,    55,    56,    38,    34,    34,    34,    36,    44,    52,
-      40,    40,    19,    25,    26,    27,    28,    29,     0,    43,
-      38,    33,    54,    55,    15,    16,    17,    18,    19,    54,
-      54,    53,    42,     7,    55,    55,    55,    55,    55,    55,
-      55,    35,    20,    21,    22,    23,    24,    30,    31,    32,
-      56,    56,    56,    56,    56,    35,    35,    38,    37,    34,
-      55,    55,    55,    55,    55,    55,    55,    55,    10,    47,
-      10,    54,    54,    44,    52,    38,    35,    38,    53,    38,
-       6,    14,    46,    48,    35,    44,    10,    38,    52,    46
+       0,     3,     4,     5,     7,     8,     9,    11,    12,    41,
+      43,    44,    45,    47,    51,    56,    57,    59,    35,    40,
+      41,    61,    62,    39,    35,    52,    35,    37,    45,    58,
+      41,    41,    20,    26,    27,    28,    29,    30,     0,    44,
+      39,    34,    60,    61,    16,    17,    18,    19,    20,    60,
+      35,    59,    43,     7,    61,    61,    61,    61,    61,    61,
+      61,    36,    21,    22,    23,    24,    25,    31,    32,    33,
+      62,    62,    62,    62,    62,    36,    53,    60,    39,    38,
+      35,    61,    61,    61,    61,    61,    61,    61,    61,    10,
+      49,    36,    60,    60,    45,    46,    10,    39,    36,    39,
+       6,    14,    48,    50,    46,    47,    54,    59,    39,    46,
+      46,    54,    54,    15,    55,    36,    48,    10,    58
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    41,    42,    42,    43,    43,    44,    44,    44,    44,
-      44,    44,    44,    44,    45,    45,    46,    47,    48,    49,
-      50,    51,    52,    52,    53,    53,    53,    53,    53,    53,
-      54,    54,    54,    54,    54,    54,    54,    54,    54,    55,
-      55,    55,    55,    55,    55,    55,    56,    56
+       0,    42,    43,    43,    44,    44,    45,    45,    45,    45,
+      45,    45,    45,    45,    46,    46,    47,    47,    48,    49,
+      50,    51,    51,    52,    53,    54,    54,    54,    54,    55,
+      56,    57,    58,    58,    59,    59,    59,    59,    59,    59,
+      60,    60,    60,    60,    60,    60,    60,    60,    60,    61,
+      61,    61,    61,    61,    61,    61,    62,    62
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     1,     2,     2,     2,     1,     2,     1,     1,
-       1,     1,     2,     2,     8,    11,     1,     1,     1,     6,
+       1,     1,     2,     2,     2,     3,     7,     9,     1,     1,
+       1,     0,     8,     0,     1,     1,     1,     2,     2,     1,
        7,    10,     3,     1,     3,     3,     3,     3,     3,     3,
        3,     3,     3,     3,     3,     3,     2,     3,     3,     1,
        3,     3,     3,     3,     3,     3,     1,     1
@@ -1330,79 +1360,79 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: line  */
-#line 38 "langue1.y"
+#line 44 "langue1.y"
                {printf("Program: line\n");}
-#line 1336 "y.tab.c"
-    break;
-
-  case 3: /* program: program line  */
-#line 39 "langue1.y"
-                       {printf("Program: line\n");}
-#line 1342 "y.tab.c"
-    break;
-
-  case 4: /* line: statement semicolon  */
-#line 42 "langue1.y"
-                              {printf("Line: statement;\n");}
-#line 1348 "y.tab.c"
-    break;
-
-  case 5: /* line: exit_command semicolon  */
-#line 43 "langue1.y"
-                                 {printf("Line: exit_command;\n"); exit(EXIT_SUCCESS);}
-#line 1354 "y.tab.c"
-    break;
-
-  case 6: /* statement: assignment  */
-#line 46 "langue1.y"
-                       {printf("Statement: assignment\n");}
-#line 1360 "y.tab.c"
-    break;
-
-  case 7: /* statement: print exp  */
-#line 47 "langue1.y"
-                      {printf("Statement: print exp\n"); fprintf(yyout, "pop eax\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n");}
 #line 1366 "y.tab.c"
     break;
 
-  case 8: /* statement: if_statement  */
-#line 48 "langue1.y"
-                         { printf("Statement: if_statement\n"); }
+  case 3: /* program: program line  */
+#line 45 "langue1.y"
+                       {printf("Program: line\n");}
 #line 1372 "y.tab.c"
     break;
 
-  case 9: /* statement: while_statement  */
-#line 49 "langue1.y"
-                            { printf("Statement: while_statement\n"); }
+  case 4: /* line: statement semicolon  */
+#line 48 "langue1.y"
+                              {printf("Line: statement;\n");}
 #line 1378 "y.tab.c"
     break;
 
-  case 10: /* statement: do_statement  */
-#line 50 "langue1.y"
-                         { printf("Statement: do_statement\n"); }
+  case 5: /* line: exit_command semicolon  */
+#line 49 "langue1.y"
+                                 {printf("Line: exit_command;\n"); exit(EXIT_SUCCESS);}
 #line 1384 "y.tab.c"
     break;
 
-  case 11: /* statement: for_statement  */
-#line 51 "langue1.y"
-                          { printf("Statement: for_statement\n"); }
+  case 6: /* statement: assignment  */
+#line 52 "langue1.y"
+                       {printf("Statement: assignment\n");}
 #line 1390 "y.tab.c"
     break;
 
-  case 12: /* statement: read_token identifier  */
-#line 52 "langue1.y"
-                                  {printf("Statement: read_token identifier\n"); fprintf(yyout, "lea eax, [%c]\npush eax\npush dword fmtlec\ncall scanf\nadd esp, 8\n", (yyvsp[0].id));}
+  case 7: /* statement: print exp  */
+#line 53 "langue1.y"
+                      {printf("Statement: print exp\n"); fprintf(yyout, "pop eax\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n");}
 #line 1396 "y.tab.c"
     break;
 
-  case 13: /* statement: write_token identifier  */
-#line 53 "langue1.y"
-                                   {printf("Statement: write_token identifier\n"); fprintf(yyout, "mov eax, [%c]\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n", (yyvsp[0].id));}
+  case 8: /* statement: if_statement  */
+#line 54 "langue1.y"
+                         { printf("Statement: if_statement\n"); }
 #line 1402 "y.tab.c"
     break;
 
-  case 16: /* finsi: fsi_token  */
-#line 60 "langue1.y"
+  case 9: /* statement: while_statement  */
+#line 55 "langue1.y"
+                            { printf("Statement: while_statement\n"); }
+#line 1408 "y.tab.c"
+    break;
+
+  case 10: /* statement: do_statement  */
+#line 56 "langue1.y"
+                         { printf("Statement: do_statement\n"); }
+#line 1414 "y.tab.c"
+    break;
+
+  case 11: /* statement: for_statement  */
+#line 57 "langue1.y"
+                          { printf("Statement: for_statement\n"); }
+#line 1420 "y.tab.c"
+    break;
+
+  case 12: /* statement: read_token identifier  */
+#line 58 "langue1.y"
+                                  {printf("Statement: read_token identifier\n"); fprintf(yyout, "lea eax, [%c]\npush eax\npush dword fmtlec\ncall scanf\nadd esp, 8\n", (yyvsp[0].id));}
+#line 1426 "y.tab.c"
+    break;
+
+  case 13: /* statement: write_token identifier  */
+#line 59 "langue1.y"
+                                   {printf("Statement: write_token identifier\n"); fprintf(yyout, "mov eax, [%c]\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n", (yyvsp[0].id));}
+#line 1432 "y.tab.c"
+    break;
+
+  case 18: /* finsi: fsi_token  */
+#line 69 "langue1.y"
                   {
             if(sinonVu) {
                 fprintf(yyout, "suite%d:\n", compteurSi);
@@ -1413,11 +1443,11 @@ yyreduce:
                 fprintf(yyout, ";Réduction du fsi%d\n", compteurSi);
             }
         }
-#line 1417 "y.tab.c"
+#line 1447 "y.tab.c"
     break;
 
-  case 17: /* alors: then_token  */
-#line 72 "langue1.y"
+  case 19: /* alors: then_token  */
+#line 81 "langue1.y"
                    {
             compteurSi++;
             fprintf(yyout, ";Réduction du alors%d\n", compteurSi);
@@ -1425,46 +1455,58 @@ yyreduce:
             fprintf(yyout, "cmp eax, 1\n");
             fprintf(yyout, "jne sinon%d\n", compteurSi);
         }
-#line 1429 "y.tab.c"
+#line 1459 "y.tab.c"
     break;
 
-  case 18: /* sinon: else_token  */
-#line 81 "langue1.y"
+  case 20: /* sinon: else_token  */
+#line 90 "langue1.y"
                    {
             fprintf(yyout, "jmp suite%d\nsinon%d:\n", compteurSi, compteurSi);
             fprintf(yyout, ";Réduction du sinon%d\n", compteurSi);
             sinonVu = 1;
         }
-#line 1439 "y.tab.c"
+#line 1469 "y.tab.c"
     break;
 
-  case 19: /* while_statement: while_token left_paren condition right_paren then_token block  */
-#line 89 "langue1.y"
-                {
-                   fprintf(yyout, "; while loop\n");
-                   fprintf(yyout, "while_start%d:\n", ++compteurWhile);
-                   fprintf(yyout, "; condition check\n");
-                   fprintf(yyout, "pop eax\n");
-                   fprintf(yyout, "cmp eax, 0\n");
-                   fprintf(yyout, "jne while_body%d\n", compteurWhile);
-                   fprintf(yyout, "jmp while_end%d\n", compteurWhile);
-                   fprintf(yyout, "while_body%d:\n", compteurWhile);
-                }
-#line 1454 "y.tab.c"
+  case 23: /* debutWhile: %empty  */
+#line 100 "langue1.y"
+             {
+    printf("debutWhile\n");
+    compteurWhile++;
+    fprintf(yyout,"debutWhile%d:\n",compteurWhile);
+}
+#line 1479 "y.tab.c"
     break;
 
-  case 20: /* do_statement: do_token block while_token left_paren condition right_paren semicolon  */
-#line 103 "langue1.y"
+  case 24: /* expbool: condition  */
+#line 106 "langue1.y"
+                    {
+    fprintf(yyout,"; Checking condition\n");
+    fprintf(yyout,"pop eax\ncmp eax,1\njne finWhile%d\n",compteurWhile);
+}
+#line 1488 "y.tab.c"
+    break;
+
+  case 29: /* finWhile: endwhile_token  */
+#line 117 "langue1.y"
+                          {
+    fprintf(yyout,"jmp debutWhile%d\nfinWhile%d:\n",compteurWhile,compteurWhile);
+}
+#line 1496 "y.tab.c"
+    break;
+
+  case 30: /* do_statement: do_token block while_token left_paren condition right_paren semicolon  */
+#line 126 "langue1.y"
               {
                 fprintf(yyout, "; do-while loop\n");
                 fprintf(yyout, "do_start%d:\n", ++compteurDo);
                 fprintf(yyout, "; loop body\n");
               }
-#line 1464 "y.tab.c"
+#line 1506 "y.tab.c"
     break;
 
-  case 21: /* for_statement: for_token left_paren assignment semicolon condition semicolon assignment right_paren then_token block  */
-#line 112 "langue1.y"
+  case 31: /* for_statement: for_token left_paren assignment semicolon condition semicolon assignment right_paren then_token block  */
+#line 135 "langue1.y"
               {
                 fprintf(yyout, "; for loop\n");
                 fprintf(yyout, "; Initialization\n");
@@ -1476,152 +1518,141 @@ yyreduce:
                 fprintf(yyout, "jmp for_init%d\n", compteurFor);
                 fprintf(yyout, "for_end%d:\n", compteurFor);
               }
-#line 1480 "y.tab.c"
+#line 1522 "y.tab.c"
     break;
 
-  case 22: /* block: left_block program right_block  */
-#line 126 "langue1.y"
+  case 32: /* block: left_block program right_block  */
+#line 149 "langue1.y"
                                        {printf("Block: { program }\n");}
-#line 1486 "y.tab.c"
+#line 1528 "y.tab.c"
     break;
 
-  case 23: /* block: statement  */
-#line 127 "langue1.y"
+  case 33: /* block: statement  */
+#line 150 "langue1.y"
                   {printf("Block: statement\n");}
-#line 1492 "y.tab.c"
+#line 1534 "y.tab.c"
     break;
 
-  case 24: /* assignment: identifier assign exp  */
-#line 131 "langue1.y"
+  case 34: /* assignment: identifier assign exp  */
+#line 154 "langue1.y"
               {printf("Assignment: identifier assign exp\n"); updateSymbolVal((yyvsp[-2].id), (yyvsp[0].num)); fprintf(yyout, "pop eax\nmov [%c], eax\n", (yyvsp[-2].id));}
-#line 1498 "y.tab.c"
+#line 1540 "y.tab.c"
     break;
 
-  case 25: /* assignment: identifier plus_assign exp  */
-#line 133 "langue1.y"
+  case 35: /* assignment: identifier plus_assign exp  */
+#line 156 "langue1.y"
               {printf("Assignment: identifier plus_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal + (yyvsp[0].num));
                fprintf(yyout, "pop eax\nadd [%c], eax\n", (yyvsp[-2].id));}
-#line 1507 "y.tab.c"
+#line 1549 "y.tab.c"
     break;
 
-  case 26: /* assignment: identifier minus_assign exp  */
-#line 138 "langue1.y"
+  case 36: /* assignment: identifier minus_assign exp  */
+#line 161 "langue1.y"
               {printf("Assignment: identifier minus_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal - (yyvsp[0].num));
                fprintf(yyout, "pop eax\nsub [%c], eax\n", (yyvsp[-2].id));}
-#line 1516 "y.tab.c"
+#line 1558 "y.tab.c"
     break;
 
-  case 27: /* assignment: identifier multiply_assign exp  */
-#line 143 "langue1.y"
+  case 37: /* assignment: identifier multiply_assign exp  */
+#line 166 "langue1.y"
               {printf("Assignment: identifier multiply_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal * (yyvsp[0].num));
                fprintf(yyout, "pop eax\nimul dword [%c], eax\n", (yyvsp[-2].id));}
-#line 1525 "y.tab.c"
+#line 1567 "y.tab.c"
     break;
 
-  case 28: /* assignment: identifier divide_assign exp  */
-#line 148 "langue1.y"
+  case 38: /* assignment: identifier divide_assign exp  */
+#line 171 "langue1.y"
               {printf("Assignment: identifier divide_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal / (yyvsp[0].num));
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], eax\n", (yyvsp[-2].id), (yyvsp[-2].id));}
-#line 1534 "y.tab.c"
+#line 1576 "y.tab.c"
     break;
 
-  case 29: /* assignment: identifier mod exp  */
-#line 153 "langue1.y"
+  case 39: /* assignment: identifier mod exp  */
+#line 176 "langue1.y"
               {printf("Assignment: identifier mod exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal % (yyvsp[0].num));
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], edx\n", (yyvsp[-2].id), (yyvsp[-2].id));}
-#line 1543 "y.tab.c"
+#line 1585 "y.tab.c"
     break;
 
-  case 30: /* condition: exp less_than exp  */
-#line 159 "langue1.y"
-                              {(yyval.num) = (yyvsp[-2].num) < (yyvsp[0].num);
+  case 40: /* condition: exp less_than exp  */
+#line 182 "langue1.y"
+                              {
                 printf("Condition: exp LESS_THAN exp\n");
                 compteurTest++;
-                fprintf(yyout, ";Teste d'infériorité\n");
-                fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
-                fprintf(yyout, "cmp eax, %d\n", (yyvsp[0].num));
-                fprintf(yyout, "jge test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+                cmpInferieur=";Teste d'infériorité\n";
+			    fprintf(yyout,"%s%sjg test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	      
             }
-#line 1556 "y.tab.c"
+#line 1596 "y.tab.c"
     break;
 
-  case 31: /* condition: exp greater_than exp  */
-#line 167 "langue1.y"
-                                 {(yyval.num) = (yyvsp[-2].num) > (yyvsp[0].num); 
+  case 41: /* condition: exp greater_than exp  */
+#line 188 "langue1.y"
+                                 {
                 printf("Condition: exp GREATER_THAN exp\n");
                 compteurTest++;
-                fprintf(yyout, ";Teste de superiorité\n");
-                fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
-                fprintf(yyout, "cmp eax, %d\n", (yyvsp[0].num));
-                fprintf(yyout, "jle test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+		        cmpSuperieur=";Teste de superiorité\n";       
+		        fprintf(yyout,"%s%sjg test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
             }
-#line 1569 "y.tab.c"
+#line 1607 "y.tab.c"
     break;
 
-  case 32: /* condition: exp less_equal exp  */
-#line 175 "langue1.y"
-                               {(yyval.num) = (yyvsp[-2].num) <= (yyvsp[0].num); 
+  case 42: /* condition: exp less_equal exp  */
+#line 194 "langue1.y"
+                               {
                 printf("Condition: exp LESS_EQUAL exp\n");
                 compteurTest++;
-                fprintf(yyout, ";Teste d'infériorité ou égalité\n");
-                fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
-                fprintf(yyout, "cmp eax, %d\n", (yyvsp[0].num));
-                fprintf(yyout, "jg test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+                cmpInferieur=";Teste d'infériorité\n";
+			    fprintf(yyout,"%s%sjge test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	          
             }
-#line 1582 "y.tab.c"
+#line 1618 "y.tab.c"
     break;
 
-  case 33: /* condition: exp greater_equal exp  */
-#line 183 "langue1.y"
+  case 43: /* condition: exp greater_equal exp  */
+#line 200 "langue1.y"
                                   {(yyval.num) = (yyvsp[-2].num) >= (yyvsp[0].num); 
-                    printf("Condition: exp GREATER_EQUAL exp\n");
-                    compteurTest++;
-                    fprintf(yyout, ";Teste de superiorité ou égalité\n");
-                    fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
-                    fprintf(yyout, "cmp eax, %d\n", (yyvsp[0].num));
-                    fprintf(yyout, "jl test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+                printf("Condition: exp GREATER_EQUAL exp\n");
+                compteurTest++;
+		        cmpSuperieur=";Teste de superiorité\n";       
+		        fprintf(yyout,"%s%sjge test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);    
             }
-#line 1595 "y.tab.c"
+#line 1629 "y.tab.c"
     break;
 
-  case 34: /* condition: exp equal exp  */
-#line 191 "langue1.y"
-                          {(yyval.num) = (yyvsp[-2].num) == (yyvsp[0].num); 
+  case 44: /* condition: exp equal exp  */
+#line 206 "langue1.y"
+                          {
                 printf("Condition: exp EQUAL exp\n");
                 compteurTest++;
-                fprintf(yyout, ";Teste d'égalité\n");
-                fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
-                fprintf(yyout, "cmp eax, %d\n", (yyvsp[0].num));
-                fprintf(yyout, "jne test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+			    cmpEgal = ";Teste d'égalité\n";
+			    fprintf(yyout,"%s%sjne test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpEgal,cmp,compteurTest,compteurTest,compteurTest,compteurTest);      
             }
-#line 1608 "y.tab.c"
+#line 1640 "y.tab.c"
     break;
 
-  case 35: /* condition: exp different exp  */
-#line 199 "langue1.y"
+  case 45: /* condition: exp different exp  */
+#line 212 "langue1.y"
                               {(yyval.num) = (yyvsp[-2].num) != (yyvsp[0].num);
                 printf("Condition: exp DIFFERENT exp\n");
                 compteurTest++;
-                fprintf(yyout, ";Teste de différence\n");
-                fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
-                fprintf(yyout, "cmp eax, %d\n", (yyvsp[0].num));
-                fprintf(yyout, "je test%d\npush 1\njmp fintest%d\ntest%d:\npush 0\nfintest%d:\n\n", compteurTest, compteurTest, compteurTest, compteurTest);
+			    cmpDifferent=";Teste de différence\n";
+			    fprintf(yyout,"%s%sjne test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpDifferent,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
+    
             }
-#line 1621 "y.tab.c"
+#line 1652 "y.tab.c"
     break;
 
-  case 36: /* condition: logical_not exp  */
-#line 207 "langue1.y"
+  case 46: /* condition: logical_not exp  */
+#line 219 "langue1.y"
                             {(yyval.num) = !(yyvsp[0].num); 
                 printf("Condition: LOGICAL_NOT exp\n");
                 fprintf(yyout, "mov eax, %d\n", (yyvsp[0].num));
@@ -1629,11 +1660,11 @@ yyreduce:
                 fprintf(yyout, "sete al\n");
                 fprintf(yyout, "movzx eax, al\n");
             }
-#line 1633 "y.tab.c"
+#line 1664 "y.tab.c"
     break;
 
-  case 37: /* condition: exp logical_and exp  */
-#line 214 "langue1.y"
+  case 47: /* condition: exp logical_and exp  */
+#line 226 "langue1.y"
                                 {(yyval.num) = (yyvsp[-2].num) && (yyvsp[0].num); 
                 printf("Condition: exp LOGICAL_AND exp\n");
                 fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
@@ -1644,11 +1675,11 @@ yyreduce:
                 fprintf(yyout, "setne bl\n");
                 fprintf(yyout, "and eax, ebx\n");
             }
-#line 1648 "y.tab.c"
+#line 1679 "y.tab.c"
     break;
 
-  case 38: /* condition: exp logical_or exp  */
-#line 224 "langue1.y"
+  case 48: /* condition: exp logical_or exp  */
+#line 236 "langue1.y"
                                {(yyval.num) = (yyvsp[-2].num) || (yyvsp[0].num); 
                 printf("Condition: exp LOGICAL_OR exp\n");
                 fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
@@ -1659,65 +1690,65 @@ yyreduce:
                 fprintf(yyout, "setne bl\n");
                 fprintf(yyout, "or eax, ebx\n");
             }
-#line 1663 "y.tab.c"
+#line 1694 "y.tab.c"
     break;
 
-  case 39: /* exp: term  */
-#line 236 "langue1.y"
+  case 49: /* exp: term  */
+#line 248 "langue1.y"
            {(yyval.num) = (yyvsp[0].num); printf("Exp: term\n");}
-#line 1669 "y.tab.c"
+#line 1700 "y.tab.c"
     break;
 
-  case 40: /* exp: exp plus term  */
-#line 237 "langue1.y"
+  case 50: /* exp: exp plus term  */
+#line 249 "langue1.y"
                     {(yyval.num) = (yyvsp[-2].num) + (yyvsp[0].num); printf("Exp: exp plus term\n"); fprintf(yyout, "pop ebx\npop eax\nadd eax, ebx\npush eax\n");}
-#line 1675 "y.tab.c"
+#line 1706 "y.tab.c"
     break;
 
-  case 41: /* exp: exp minus term  */
-#line 238 "langue1.y"
+  case 51: /* exp: exp minus term  */
+#line 250 "langue1.y"
                      {(yyval.num) = (yyvsp[-2].num) - (yyvsp[0].num); printf("Exp: exp minus term\n"); fprintf(yyout, "pop ebx\npop eax\nsub eax, ebx\npush eax\n");}
-#line 1681 "y.tab.c"
+#line 1712 "y.tab.c"
     break;
 
-  case 42: /* exp: exp multiply term  */
-#line 239 "langue1.y"
+  case 52: /* exp: exp multiply term  */
+#line 251 "langue1.y"
                         {(yyval.num) = (yyvsp[-2].num) * (yyvsp[0].num); printf("Exp: exp multiply term\n"); fprintf(yyout, "pop ebx\npop eax\nimul eax, ebx\npush eax\n");}
-#line 1687 "y.tab.c"
+#line 1718 "y.tab.c"
     break;
 
-  case 43: /* exp: exp divide term  */
-#line 240 "langue1.y"
+  case 53: /* exp: exp divide term  */
+#line 252 "langue1.y"
                       {(yyval.num) = (yyvsp[-2].num) / (yyvsp[0].num); printf("Exp: exp divide term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush eax\n");}
-#line 1693 "y.tab.c"
+#line 1724 "y.tab.c"
     break;
 
-  case 44: /* exp: exp mod term  */
-#line 241 "langue1.y"
+  case 54: /* exp: exp mod term  */
+#line 253 "langue1.y"
                    {(yyval.num) = (yyvsp[-2].num) % (yyvsp[0].num); printf("Exp: exp mod term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush edx\n");}
-#line 1699 "y.tab.c"
+#line 1730 "y.tab.c"
     break;
 
-  case 45: /* exp: left_paren condition right_paren  */
-#line 242 "langue1.y"
+  case 55: /* exp: left_paren condition right_paren  */
+#line 254 "langue1.y"
                                        { (yyval.num) = (yyvsp[-1].num); }
-#line 1705 "y.tab.c"
+#line 1736 "y.tab.c"
     break;
 
-  case 46: /* term: number  */
-#line 245 "langue1.y"
+  case 56: /* term: number  */
+#line 257 "langue1.y"
               {(yyval.num) = (yyvsp[0].num); printf("Term: number\n"); fprintf(yyout, "push %d\n", (yyvsp[0].num));}
-#line 1711 "y.tab.c"
+#line 1742 "y.tab.c"
     break;
 
-  case 47: /* term: identifier  */
-#line 246 "langue1.y"
+  case 57: /* term: identifier  */
+#line 258 "langue1.y"
                   {(yyval.num) = symbolVal((yyvsp[0].id)); printf("Term: identifier\n"); fprintf(yyout, "push dword [%c]\n", (yyvsp[0].id));}
-#line 1717 "y.tab.c"
+#line 1748 "y.tab.c"
     break;
 
 
-#line 1721 "y.tab.c"
+#line 1752 "y.tab.c"
 
       default: break;
     }
@@ -1910,7 +1941,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 249 "langue1.y"
+#line 261 "langue1.y"
 
 
 int computeSymbolIndex(char token) {

@@ -12,55 +12,47 @@ extern scanf
 
 _start:
 
-push 4
+push 15
 pop eax
 mov [A], eax
-lea eax, [B]
-push eax
-push dword fmtlec
-call scanf
-add esp, 8
-lea eax, [C]
-push eax
-push dword fmtlec
-call scanf
-add esp, 8
-mov eax, [A]
-push eax
-push dword fmt
-call printf
-add esp, 8
+push 6
+pop eax
+mov [B], eax
+debutWhile1:
 push dword [A]
-push 2
-;Teste d'infériorité ou égalité
-mov eax, 4
-cmp eax, 2
+push 6
+;Teste de superiorité
+pop ebx
+pop eax
+cmp eax, ebx
+
 jg test1
-push 1
-jmp fintest1
-test1:
 push 0
+jmp fintest1 
+test1:
+push 1
 fintest1:
 
-;Réduction du alors1
+
+; Checking condition
 pop eax
-cmp eax, 1
-jne sinon1
+cmp eax,1
+jne finWhile1
+push dword [A]
+push 1
+pop ebx
+pop eax
+sub eax, ebx
+push eax
+pop eax
+mov [A], eax
 mov eax, [A]
 push eax
 push dword fmt
 call printf
 add esp, 8
-jmp suite1
-sinon1:
-;Réduction du sinon1
-mov eax, [B]
-push eax
-push dword fmt
-call printf
-add esp, 8
-suite1:
-;Réduction du fsis1
+jmp debutWhile1
+finWhile1:
 mov eax, 1
 mov ebx, 0
 int 0x80
