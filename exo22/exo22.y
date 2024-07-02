@@ -7,15 +7,9 @@ Stack p;
 int eax, ebx;
 
 
-// Stack management
-int isFull();
-int isEmpty();
-void push(int value);
-int pop();
-
 
 // Other useful functions
-void print(int value);
+void print();
 int take(int address);
 void affec(int address);
 void add();
@@ -79,7 +73,6 @@ int main(void)
   
   printf("\n\
 section .data\n\
-  output_format db "%d", 10   ; Format string for printing integer (with newline)\n\
   a dq 0\n\
   b dq 0\n\
   c dq 0\n\
@@ -116,9 +109,8 @@ printf:\n\
     pop rdi                  ; Restore rdi (callee-saved)\n\
     pop rdx                  ; Restore rdx (caller-saved)\n\
     pop rax                  ; Restore rax (caller-saved)\n\
-    ret
-    "
-  );
+    ret\n\
+    ");
 
 
 
@@ -129,19 +121,19 @@ printf:\n\
 
 
 
-void print(int value)
+void print()
 {
 
   printf("\n\
     ; Load the number into rax\n\
-    mov rax, 1234567890    ; Example number to print\n\
+    mov rax, rbx    ; Number to print\n\
 \n\
     ; Prepare for printing the number\n\
     lea rdi, [output_format] ; Load the address of the format string\n\
     mov rsi, rax             ; Move the number to be printed into rsi\n\
     xor rax, rax             ; Clear rax for syscall\n\
     call printf              ; Call printf\n\
-  ", value);
+  ");
 
 }
 
@@ -150,33 +142,41 @@ void print(int value)
 
 int take(int address)
 {
-  // return var[address -'a'];
-  printf("mov a, ")
+  // return var[address -'a']; Ready to read values are stored in rbx
+  printf("\nmov rbx, %d", address -'a');
 }
 
 
 void affec(int address)
 {
-  int val = pop(&p);
-  var[address -'a'] = val;
+  // int val = pop(&p);
+  // var[address -'a'] = val;
+  printf("\npop %d", address -'a');
 }
 
 void add()
 {
-  eax = pop(&p);
-  ebx = pop(&p);
+  // eax = pop(&p);
+  // ebx = pop(&p);
+  printf("\npop eax");
+  printf("\npop ebx");
   
-  push(&p, eax + ebx);
-  
-  printf("\tdans add : eax=%d ebx=%d prod=%d ",eax,ebx,eax + ebx);
+  //push(&p, eax + ebx);
+  printf("\nadd eax, ebx\npush eax");
+
+
+  //printf("\tdans add : eax=%d ebx=%d prod=%d ",eax,ebx,eax + ebx);
 }
 
 void mult()
 {
-  eax = pop(&p);
-  ebx = pop(&p);
+  //eax = pop(&p);
+  //ebx = pop(&p);
+  printf("\npop rax");
+  printf("\npop ebx");
   
-  push(&p,eax * ebx);
+  //push(&p,eax * ebx);
+  printf("\nMUL ebx\npush rax");
   
-  printf("\tdans mult: eax=%d ebx=%d prod=%d ",eax,ebx,eax * ebx);
+  //printf("\tdans mult: eax=%d ebx=%d prod=%d ",eax,ebx,eax * ebx);
 }
