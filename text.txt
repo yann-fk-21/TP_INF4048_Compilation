@@ -1,0 +1,10 @@
+A=4;
+tchie B;
+tchie C;
+
+A = A+B;
+mbeug(A<=2)then{
+    mouah A;
+};
+
+
