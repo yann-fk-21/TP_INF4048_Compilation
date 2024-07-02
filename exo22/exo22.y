@@ -24,6 +24,9 @@ void mult();
 %token VARIABLE
 
 %%
+
+
+
 Program:
        stat {printf("\n\n\t\t Correcte pour la syntaxe \n\n");}
        
@@ -38,8 +41,8 @@ bloc:
 
 instr:
 
-      VARIABLE '=' E {affec($1); printf("\nRéduction instr ---> var = E ");}
-     | PRINT VARIABLE {printf("\nRéduction instr ---> print: %d", take($2));}
+      VARIABLE '=' E {affec($1); /* Réduction instr ---> var = E */}
+     | PRINT VARIABLE {take($2); print(); /* Réduction instr ---> print: %d", take($2) */}
 
 
 E:
@@ -55,7 +58,14 @@ F:
     INTEGER {push(&p, $1);printf("\nRéduction F ----> int"); }
     | VARIABLE  {push(&p, take($1)); printf("\nRéduction F ----> var");}   
 
+
+
+
 %%
+
+
+
+
 
 int main(void)
 {
@@ -108,11 +118,6 @@ printf:\n\
 }
 
 
-int yyerror(char *str)
-{
-	printf("error parsing %s\n",str);
-	return 0;
-}
 
 
 void print(int value)
@@ -131,11 +136,6 @@ void print(int value)
 
 }
 
-
-void emit(char* opcode, int operand)
-{
-    printf("%s %d\n", opcode, operand);
-}
 
 
 
