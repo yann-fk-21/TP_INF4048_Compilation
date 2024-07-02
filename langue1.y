@@ -118,17 +118,31 @@ finWhile : endwhile_token {
     fprintf(yyout,"jmp debutWhile%d\nfinWhile%d:\n",compteurWhile,compteurWhile);
 };
 
-
                 
 
 
-do_statement : do_token block while_token left_paren condition right_paren semicolon
-              {
-                fprintf(yyout, "; do-while loop\n");
-                fprintf(yyout, "do_start%d:\n", ++compteurDo);
-                fprintf(yyout, "; loop body\n");
-              }  
-             ;
+do_statement : do_token left_block debutDoWhile blocInDoWhile right_block while_token left_paren expboolForDo right_paren finDoWhile
+
+debutDoWhile : {
+    printf("debutDoWhile\n");
+    compteurDo++;
+    fprintf(yyout,"debutDoWhile%d:\n",compteurDo);
+};
+
+expboolForDo : condition {
+    fprintf(yyout,"; Checking condition\n");
+    fprintf(yyout,"pop eax\ncmp eax,0\njne finDoWhile%d\n",compteurDo);
+};
+
+blocInDoWhile : dstatement
+            | if_statement
+            | if_statement blocInDoWhile
+            | dstatement blocInDoWhile
+            ;
+
+finDoWhile : {
+    fprintf(yyout,"jmp debutDoWhile%d\nfinDoWhile%d:\n",compteurDo,compteurDo);
+};
 
 
 for_statement : for_token left_paren assignment semicolon condition semicolon assignment right_paren then_token block  

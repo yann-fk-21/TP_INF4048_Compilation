@@ -1,10 +1,18 @@
 A=15;
 B=6;
 
-tehque (A>6) then
+C = A % B; 
+mouah C;
+
+ngre { 
     A =  A-1;
-    mouah A;
-natehque;    
+    mbeug (A>=10) then
+        mouah A;
+    nambeug;  
+}tehque(A<=6);
+
+
+
 
 
 

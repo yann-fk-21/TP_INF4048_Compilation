@@ -18,26 +18,21 @@ mov [A], eax
 push 6
 pop eax
 mov [B], eax
-debutWhile1:
 push dword [A]
-push 6
-;Teste de superiorité
+push dword [B]
 pop ebx
 pop eax
-cmp eax, ebx
-
-jg test1
-push 0
-jmp fintest1 
-test1:
-push 1
-fintest1:
-
-
-; Checking condition
+cdq
+idiv ebx
+push edx
 pop eax
-cmp eax,1
-jne finWhile1
+mov [C], eax
+mov eax, [C]
+push eax
+push dword fmt
+call printf
+add esp, 8
+debutDoWhile1:
 push dword [A]
 push 1
 pop ebx
@@ -46,13 +41,53 @@ sub eax, ebx
 push eax
 pop eax
 mov [A], eax
+push dword [A]
+push 10
+;Teste de superiorité
+pop ebx
+pop eax
+cmp eax, ebx
+
+jge test1
+push 0
+jmp fintest1 
+test1:
+push 1
+fintest1:
+
+
+;Réduction du alors1
+pop eax
+cmp eax, 1
+jne sinon1
 mov eax, [A]
 push eax
 push dword fmt
 call printf
 add esp, 8
-jmp debutWhile1
-finWhile1:
+sinon1:
+;Réduction du fsi1
+push dword [A]
+push 6
+;Teste d'infériorité
+pop ebx
+pop eax
+cmp eax, ebx
+
+jge test2
+push 1
+jmp fintest2 
+test2:
+push 0
+fintest2:
+
+
+; Checking condition
+pop eax
+cmp eax,0
+jne finDoWhile1
+jmp debutDoWhile1
+finDoWhile1:
 mov eax, 1
 mov ebx, 0
 int 0x80
