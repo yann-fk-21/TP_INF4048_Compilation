@@ -1,0 +1,1 @@
+Pour effectuer l'analyse, taper la commande cat src.txt | ./exo16 dans le dossier exo16

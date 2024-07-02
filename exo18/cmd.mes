@@ -1,0 +1,6 @@
+a=23;
+b=67+45*a;
+c=a*b;
+
+print b; 
+print c;
