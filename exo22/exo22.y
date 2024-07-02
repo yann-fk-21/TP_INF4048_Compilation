@@ -2,15 +2,20 @@
 #include<stdio.h>
 #include "simple.h"
 #include "stack.h"
-#define nbMax
-int compteurSi = 0, compteurTest = 0, compteurWhile = 0;
-FILE *yyout;
 int var[4];
 Stack p;
 int eax, ebx;
 
+
+// Stack management
+int isFull();
+int isEmpty();
+void push(int value);
+int pop();
+
+
+// Other useful functions
 void print(int value);
-void emit(char* opcode, int operand);
 int take(int address);
 void affec(int address);
 void add();
@@ -75,6 +80,10 @@ int main(void)
   printf("\n\
 section .data\n\
   output_format db "%d", 10   ; Format string for printing integer (with newline)\n\
+  a dq 0\n\
+  b dq 0\n\
+  c dq 0\n\
+  d dq 0\n\
 \n\
 section .text\n\
 \n\
@@ -141,7 +150,8 @@ void print(int value)
 
 int take(int address)
 {
-  return var[address -'a'];
+  // return var[address -'a'];
+  printf("mov a, ")
 }
 
 
