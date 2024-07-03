@@ -710,13 +710,13 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    44,    44,    45,    48,    49,    52,    53,    54,    55,
-      56,    57,    58,    59,    62,    63,    65,    66,    69,    81,
-      90,    97,    98,   100,   106,   111,   112,   113,   114,   117,
-     124,   126,   132,   137,   138,   139,   140,   143,   148,   161,
-     166,   175,   189,   190,   195,   197,   202,   207,   212,   217,
-     224,   230,   236,   242,   248,   254,   261,   268,   278,   290,
-     291,   292,   293,   294,   295,   296,   299,   300
+       0,    44,    44,    59,    62,    63,    66,    67,    68,    69,
+      70,    71,    72,    73,    76,    77,    79,    80,    83,    95,
+     104,   111,   112,   114,   120,   125,   126,   127,   128,   131,
+     138,   140,   146,   151,   152,   153,   154,   157,   162,   175,
+     180,   189,   203,   204,   209,   211,   216,   221,   226,   231,
+     238,   244,   250,   256,   262,   268,   275,   282,   292,   304,
+     305,   306,   307,   308,   309,   310,   313,   314
 };
 #endif
 
@@ -1381,79 +1381,92 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: line  */
-#line 44 "langue1.y"
-               {printf("Program: line\n");}
-#line 1387 "y.tab.c"
+#line 45 "langue1.y"
+            {
+                printf("Program: line\n");
+                  printf("\n\
+                ; Load the number into rax\n\
+                    mov rax, rbx    ; Number to print\n\
+                \n\
+                    ; Prepare for printing the number\n\
+                    lea rdi, [output_format] ; Load the address of the format string\n\
+                    mov rsi, rax             ; Move the number to be printed into rsi\n\
+                    xor rax, rax             ; Clear rax for syscall\n\
+                    call printf              ; Call printf\n\
+                ");
+
+            }
+#line 1400 "y.tab.c"
     break;
 
   case 3: /* program: program line  */
-#line 45 "langue1.y"
+#line 59 "langue1.y"
                        {printf("Program: line\n");}
-#line 1393 "y.tab.c"
+#line 1406 "y.tab.c"
     break;
 
   case 4: /* line: statement semicolon  */
-#line 48 "langue1.y"
+#line 62 "langue1.y"
                               {printf("Line: statement;\n");}
-#line 1399 "y.tab.c"
+#line 1412 "y.tab.c"
     break;
 
   case 5: /* line: exit_command semicolon  */
-#line 49 "langue1.y"
+#line 63 "langue1.y"
                                  {printf("Line: exit_command;\n"); exit(EXIT_SUCCESS);}
-#line 1405 "y.tab.c"
+#line 1418 "y.tab.c"
     break;
 
   case 6: /* statement: assignment  */
-#line 52 "langue1.y"
+#line 66 "langue1.y"
                        {printf("Statement: assignment\n");}
-#line 1411 "y.tab.c"
+#line 1424 "y.tab.c"
     break;
 
   case 7: /* statement: print exp  */
-#line 53 "langue1.y"
+#line 67 "langue1.y"
                       {printf("Statement: print exp\n"); fprintf(yyout, "pop eax\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n");}
-#line 1417 "y.tab.c"
+#line 1430 "y.tab.c"
     break;
 
   case 8: /* statement: if_statement  */
-#line 54 "langue1.y"
+#line 68 "langue1.y"
                          { printf("Statement: if_statement\n"); }
-#line 1423 "y.tab.c"
+#line 1436 "y.tab.c"
     break;
 
   case 9: /* statement: while_statement  */
-#line 55 "langue1.y"
+#line 69 "langue1.y"
                             { printf("Statement: while_statement\n"); }
-#line 1429 "y.tab.c"
+#line 1442 "y.tab.c"
     break;
 
   case 10: /* statement: do_statement  */
-#line 56 "langue1.y"
+#line 70 "langue1.y"
                          { printf("Statement: do_statement\n"); }
-#line 1435 "y.tab.c"
+#line 1448 "y.tab.c"
     break;
 
   case 11: /* statement: for_statement  */
-#line 57 "langue1.y"
+#line 71 "langue1.y"
                           { printf("Statement: for_statement\n"); }
-#line 1441 "y.tab.c"
+#line 1454 "y.tab.c"
     break;
 
   case 12: /* statement: read_token identifier  */
-#line 58 "langue1.y"
+#line 72 "langue1.y"
                                   {printf("Statement: read_token identifier\n"); fprintf(yyout, "lea eax, [%c]\npush eax\npush dword fmtlec\ncall scanf\nadd esp, 8\n", (yyvsp[0].id));}
-#line 1447 "y.tab.c"
+#line 1460 "y.tab.c"
     break;
 
   case 13: /* statement: write_token identifier  */
-#line 59 "langue1.y"
+#line 73 "langue1.y"
                                    {printf("Statement: write_token identifier\n"); fprintf(yyout, "mov eax, [%c]\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n", (yyvsp[0].id));}
-#line 1453 "y.tab.c"
+#line 1466 "y.tab.c"
     break;
 
   case 18: /* finsi: fsi_token  */
-#line 69 "langue1.y"
+#line 83 "langue1.y"
                   {
             if(sinonVu) {
                 fprintf(yyout, "suite%d:\n", compteurSi);
@@ -1464,11 +1477,11 @@ yyreduce:
                 fprintf(yyout, ";Réduction du fsi%d\n", compteurSi);
             }
         }
-#line 1468 "y.tab.c"
+#line 1481 "y.tab.c"
     break;
 
   case 19: /* alors: then_token  */
-#line 81 "langue1.y"
+#line 95 "langue1.y"
                    {
             compteurSi++;
             fprintf(yyout, ";Réduction du alors%d\n", compteurSi);
@@ -1476,75 +1489,75 @@ yyreduce:
             fprintf(yyout, "cmp eax, 1\n");
             fprintf(yyout, "jne sinon%d\n", compteurSi);
         }
-#line 1480 "y.tab.c"
+#line 1493 "y.tab.c"
     break;
 
   case 20: /* sinon: else_token  */
-#line 90 "langue1.y"
+#line 104 "langue1.y"
                    {
             fprintf(yyout, "jmp suite%d\nsinon%d:\n", compteurSi, compteurSi);
             fprintf(yyout, ";Réduction du sinon%d\n", compteurSi);
             sinonVu = 1;
         }
-#line 1490 "y.tab.c"
+#line 1503 "y.tab.c"
     break;
 
   case 23: /* debutWhile: %empty  */
-#line 100 "langue1.y"
+#line 114 "langue1.y"
              {
     printf("debutWhile\n");
     compteurWhile++;
     fprintf(yyout,"debutWhile%d:\n",compteurWhile);
 }
-#line 1500 "y.tab.c"
+#line 1513 "y.tab.c"
     break;
 
   case 24: /* expbool: condition  */
-#line 106 "langue1.y"
+#line 120 "langue1.y"
                     {
     fprintf(yyout,"; Checking condition\n");
     fprintf(yyout,"pop eax\ncmp eax,1\njne finWhile%d\n",compteurWhile);
 }
-#line 1509 "y.tab.c"
+#line 1522 "y.tab.c"
     break;
 
   case 29: /* finWhile: endwhile_token  */
-#line 117 "langue1.y"
+#line 131 "langue1.y"
                           {
     fprintf(yyout,"jmp debutWhile%d\nfinWhile%d:\n\n\n",compteurWhile,compteurWhile);
 }
-#line 1517 "y.tab.c"
+#line 1530 "y.tab.c"
     break;
 
   case 31: /* debutDoWhile: %empty  */
-#line 126 "langue1.y"
+#line 140 "langue1.y"
                {
     printf("debutDoWhile\n");
     compteurDo++;
     fprintf(yyout,"debutDoWhile%d:\n",compteurDo);
 }
-#line 1527 "y.tab.c"
+#line 1540 "y.tab.c"
     break;
 
   case 32: /* expboolForDo: condition  */
-#line 132 "langue1.y"
+#line 146 "langue1.y"
                          {
     fprintf(yyout,"; Checking condition\n");
     fprintf(yyout,"pop eax\ncmp eax,0\njne finDoWhile%d\n",compteurDo);
 }
-#line 1536 "y.tab.c"
+#line 1549 "y.tab.c"
     break;
 
   case 37: /* finDoWhile: %empty  */
-#line 143 "langue1.y"
+#line 157 "langue1.y"
              {
     fprintf(yyout,"jmp debutDoWhile%d\nfinDoWhile%d:\n\n\n",compteurDo,compteurDo);
 }
-#line 1544 "y.tab.c"
+#line 1557 "y.tab.c"
     break;
 
   case 38: /* for_statement: for_token left_paren init_assignment semicolon condition_for semicolon assignment do_for block  */
-#line 149 "langue1.y"
+#line 163 "langue1.y"
               {
                     fprintf(yyout, "; Block end\n");
                     fprintf(yyout, "; Increment iterator\n");
@@ -1553,29 +1566,29 @@ yyreduce:
                     fprintf(yyout, "; End of for loop\n\n\n");
                     printf("Reduction of for loop....\n");
               }
-#line 1557 "y.tab.c"
+#line 1570 "y.tab.c"
     break;
 
   case 39: /* init_assignment: assignment  */
-#line 161 "langue1.y"
+#line 175 "langue1.y"
                              {
                     printf("Initializing loop iterator\n");
                 }
-#line 1565 "y.tab.c"
+#line 1578 "y.tab.c"
     break;
 
   case 40: /* condition_for: condition  */
-#line 167 "langue1.y"
+#line 181 "langue1.y"
                 {
                     fprintf(yyout, "jmp condition_check%d\n", compteurFor);
                     fprintf(yyout, "; Increment iterator\n");
                     fprintf(yyout, "next_iterator%d:\n", compteurFor);
                 }
-#line 1575 "y.tab.c"
+#line 1588 "y.tab.c"
     break;
 
   case 41: /* do_for: right_paren  */
-#line 176 "langue1.y"
+#line 190 "langue1.y"
                 {
                     fprintf(yyout, "; for loop\n");
                     fprintf(yyout, "; Initialization\n");
@@ -1586,129 +1599,129 @@ yyreduce:
                     fprintf(yyout, "je for_end%d        ; Jump to the end of the for loop if the condition is no longer true\n", compteurFor);
                     fprintf(yyout, "; Block start\n");
                 }
-#line 1590 "y.tab.c"
+#line 1603 "y.tab.c"
     break;
 
   case 42: /* block: left_block program right_block  */
-#line 189 "langue1.y"
+#line 203 "langue1.y"
                                        {printf("Block: { program }\n");}
-#line 1596 "y.tab.c"
+#line 1609 "y.tab.c"
     break;
 
   case 43: /* block: statement  */
-#line 190 "langue1.y"
+#line 204 "langue1.y"
                   {printf("Block: statement\n");}
-#line 1602 "y.tab.c"
+#line 1615 "y.tab.c"
     break;
 
   case 44: /* assignment: identifier assign exp  */
-#line 196 "langue1.y"
+#line 210 "langue1.y"
               {printf("Assignment: identifier assign exp\n"); updateSymbolVal((yyvsp[-2].id), (yyvsp[0].num)); fprintf(yyout, "pop eax\nmov [%c], eax\n", (yyvsp[-2].id));}
-#line 1608 "y.tab.c"
+#line 1621 "y.tab.c"
     break;
 
   case 45: /* assignment: identifier plus_assign exp  */
-#line 198 "langue1.y"
+#line 212 "langue1.y"
               {printf("Assignment: identifier plus_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal + (yyvsp[0].num));
                fprintf(yyout, "pop eax\nadd [%c], eax\n", (yyvsp[-2].id));}
-#line 1617 "y.tab.c"
+#line 1630 "y.tab.c"
     break;
 
   case 46: /* assignment: identifier minus_assign exp  */
-#line 203 "langue1.y"
+#line 217 "langue1.y"
               {printf("Assignment: identifier minus_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal - (yyvsp[0].num));
                fprintf(yyout, "pop eax\nsub [%c], eax\n", (yyvsp[-2].id));}
-#line 1626 "y.tab.c"
+#line 1639 "y.tab.c"
     break;
 
   case 47: /* assignment: identifier multiply_assign exp  */
-#line 208 "langue1.y"
+#line 222 "langue1.y"
               {printf("Assignment: identifier multiply_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal * (yyvsp[0].num));
                fprintf(yyout, "pop eax\nimul dword [%c], eax\n", (yyvsp[-2].id));}
-#line 1635 "y.tab.c"
+#line 1648 "y.tab.c"
     break;
 
   case 48: /* assignment: identifier divide_assign exp  */
-#line 213 "langue1.y"
+#line 227 "langue1.y"
               {printf("Assignment: identifier divide_assign exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal / (yyvsp[0].num));
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], eax\n", (yyvsp[-2].id), (yyvsp[-2].id));}
-#line 1644 "y.tab.c"
+#line 1657 "y.tab.c"
     break;
 
   case 49: /* assignment: identifier mod exp  */
-#line 218 "langue1.y"
+#line 232 "langue1.y"
               {printf("Assignment: identifier mod exp\n");
                int currentVal = symbolVal((yyvsp[-2].id));
                updateSymbolVal((yyvsp[-2].id), currentVal % (yyvsp[0].num));
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], edx\n", (yyvsp[-2].id), (yyvsp[-2].id));}
-#line 1653 "y.tab.c"
+#line 1666 "y.tab.c"
     break;
 
   case 50: /* condition: exp less_than exp  */
-#line 224 "langue1.y"
+#line 238 "langue1.y"
                               {
                 printf("Condition: exp LESS_THAN exp\n");
                 compteurTest++;
                 cmpInferieur=";Teste d'infériorité\n";
 			    fprintf(yyout,"%s%sjg test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	      
             }
-#line 1664 "y.tab.c"
+#line 1677 "y.tab.c"
     break;
 
   case 51: /* condition: exp greater_than exp  */
-#line 230 "langue1.y"
+#line 244 "langue1.y"
                                  {
                 printf("Condition: exp GREATER_THAN exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
 		        fprintf(yyout,"%s%sjg test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
             }
-#line 1675 "y.tab.c"
+#line 1688 "y.tab.c"
     break;
 
   case 52: /* condition: exp less_equal exp  */
-#line 236 "langue1.y"
+#line 250 "langue1.y"
                                {
                 printf("Condition: exp LESS_EQUAL exp\n");
                 compteurTest++;
                 cmpInferieur=";Teste d'infériorité\n";
 			    fprintf(yyout,"%s%sjge test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	          
             }
-#line 1686 "y.tab.c"
+#line 1699 "y.tab.c"
     break;
 
   case 53: /* condition: exp greater_equal exp  */
-#line 242 "langue1.y"
+#line 256 "langue1.y"
                                   {(yyval.num) = (yyvsp[-2].num) >= (yyvsp[0].num); 
                 printf("Condition: exp GREATER_EQUAL exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
 		        fprintf(yyout,"%s%sjge test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);    
             }
-#line 1697 "y.tab.c"
+#line 1710 "y.tab.c"
     break;
 
   case 54: /* condition: exp equal exp  */
-#line 248 "langue1.y"
+#line 262 "langue1.y"
                           {
                 printf("Condition: exp EQUAL exp\n");
                 compteurTest++;
 			    cmpEgal = ";Teste d'égalité\n";
 			    fprintf(yyout,"%s%sjne test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpEgal,cmp,compteurTest,compteurTest,compteurTest,compteurTest);      
             }
-#line 1708 "y.tab.c"
+#line 1721 "y.tab.c"
     break;
 
   case 55: /* condition: exp different exp  */
-#line 254 "langue1.y"
+#line 268 "langue1.y"
                               {(yyval.num) = (yyvsp[-2].num) != (yyvsp[0].num);
                 printf("Condition: exp DIFFERENT exp\n");
                 compteurTest++;
@@ -1716,11 +1729,11 @@ yyreduce:
 			    fprintf(yyout,"%s%sjne test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpDifferent,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
     
             }
-#line 1720 "y.tab.c"
+#line 1733 "y.tab.c"
     break;
 
   case 56: /* condition: logical_not exp  */
-#line 261 "langue1.y"
+#line 275 "langue1.y"
                             {(yyval.num) = !(yyvsp[0].num); 
                 printf("Condition: LOGICAL_NOT exp\n");
                 fprintf(yyout, "mov eax, %d\n", (yyvsp[0].num));
@@ -1728,11 +1741,11 @@ yyreduce:
                 fprintf(yyout, "sete al\n");
                 fprintf(yyout, "movzx eax, al\n");
             }
-#line 1732 "y.tab.c"
+#line 1745 "y.tab.c"
     break;
 
   case 57: /* condition: exp logical_and exp  */
-#line 268 "langue1.y"
+#line 282 "langue1.y"
                                 {(yyval.num) = (yyvsp[-2].num) && (yyvsp[0].num); 
                 printf("Condition: exp LOGICAL_AND exp\n");
                 fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
@@ -1743,11 +1756,11 @@ yyreduce:
                 fprintf(yyout, "setne bl\n");
                 fprintf(yyout, "and eax, ebx\n");
             }
-#line 1747 "y.tab.c"
+#line 1760 "y.tab.c"
     break;
 
   case 58: /* condition: exp logical_or exp  */
-#line 278 "langue1.y"
+#line 292 "langue1.y"
                                {(yyval.num) = (yyvsp[-2].num) || (yyvsp[0].num); 
                 printf("Condition: exp LOGICAL_OR exp\n");
                 fprintf(yyout, "mov eax, %d\n", (yyvsp[-2].num));
@@ -1758,65 +1771,65 @@ yyreduce:
                 fprintf(yyout, "setne bl\n");
                 fprintf(yyout, "or eax, ebx\n");
             }
-#line 1762 "y.tab.c"
+#line 1775 "y.tab.c"
     break;
 
   case 59: /* exp: term  */
-#line 290 "langue1.y"
+#line 304 "langue1.y"
            {(yyval.num) = (yyvsp[0].num); printf("Exp: term\n");}
-#line 1768 "y.tab.c"
+#line 1781 "y.tab.c"
     break;
 
   case 60: /* exp: exp plus term  */
-#line 291 "langue1.y"
+#line 305 "langue1.y"
                     {(yyval.num) = (yyvsp[-2].num) + (yyvsp[0].num); printf("Exp: exp plus term\n"); fprintf(yyout, "pop ebx\npop eax\nadd eax, ebx\npush eax\n");}
-#line 1774 "y.tab.c"
+#line 1787 "y.tab.c"
     break;
 
   case 61: /* exp: exp minus term  */
-#line 292 "langue1.y"
+#line 306 "langue1.y"
                      {(yyval.num) = (yyvsp[-2].num) - (yyvsp[0].num); printf("Exp: exp minus term\n"); fprintf(yyout, "pop ebx\npop eax\nsub eax, ebx\npush eax\n");}
-#line 1780 "y.tab.c"
+#line 1793 "y.tab.c"
     break;
 
   case 62: /* exp: exp multiply term  */
-#line 293 "langue1.y"
+#line 307 "langue1.y"
                         {(yyval.num) = (yyvsp[-2].num) * (yyvsp[0].num); printf("Exp: exp multiply term\n"); fprintf(yyout, "pop ebx\npop eax\nimul eax, ebx\npush eax\n");}
-#line 1786 "y.tab.c"
+#line 1799 "y.tab.c"
     break;
 
   case 63: /* exp: exp divide term  */
-#line 294 "langue1.y"
+#line 308 "langue1.y"
                       {(yyval.num) = (yyvsp[-2].num) / (yyvsp[0].num); printf("Exp: exp divide term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush eax\n");}
-#line 1792 "y.tab.c"
+#line 1805 "y.tab.c"
     break;
 
   case 64: /* exp: exp mod term  */
-#line 295 "langue1.y"
+#line 309 "langue1.y"
                    {(yyval.num) = (yyvsp[-2].num) % (yyvsp[0].num); printf("Exp: exp mod term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush edx\n");}
-#line 1798 "y.tab.c"
+#line 1811 "y.tab.c"
     break;
 
   case 65: /* exp: left_paren condition right_paren  */
-#line 296 "langue1.y"
+#line 310 "langue1.y"
                                        { (yyval.num) = (yyvsp[-1].num); }
-#line 1804 "y.tab.c"
+#line 1817 "y.tab.c"
     break;
 
   case 66: /* term: number  */
-#line 299 "langue1.y"
+#line 313 "langue1.y"
               {(yyval.num) = (yyvsp[0].num); printf("Term: number\n"); fprintf(yyout, "push %d\n", (yyvsp[0].num));}
-#line 1810 "y.tab.c"
+#line 1823 "y.tab.c"
     break;
 
   case 67: /* term: identifier  */
-#line 300 "langue1.y"
+#line 314 "langue1.y"
                   {(yyval.num) = symbolVal((yyvsp[0].id)); printf("Term: identifier\n"); fprintf(yyout, "push dword [%c]\n", (yyvsp[0].id));}
-#line 1816 "y.tab.c"
+#line 1829 "y.tab.c"
     break;
 
 
-#line 1820 "y.tab.c"
+#line 1833 "y.tab.c"
 
       default: break;
     }
@@ -2009,7 +2022,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 303 "langue1.y"
+#line 317 "langue1.y"
 
 
 int computeSymbolIndex(char token) {
@@ -2049,7 +2062,16 @@ int main(void) {
     }
     fprintf(yyout, "%s", header);
     int result = yyparse();
+    
     fprintf(yyout, "%s", trailer);
+
+    fprintf(yyout,
+    "printf:\n\
+    pop eax                 ; Get value to print\n\
+    ret\n\
+    ");
+
+    
     fclose(yyout);
     return result;
 }

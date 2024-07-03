@@ -41,7 +41,21 @@ char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 
 %%
 
-program : line {printf("Program: line\n");}
+program : line
+            {
+                printf("Program: line\n");
+                  printf("\n\
+                ; Load the number into rax\n\
+                    mov rax, rbx    ; Number to print\n\
+                \n\
+                    ; Prepare for printing the number\n\
+                    lea rdi, [output_format] ; Load the address of the format string\n\
+                    mov rsi, rax             ; Move the number to be printed into rsi\n\
+                    xor rax, rax             ; Clear rax for syscall\n\
+                    call printf              ; Call printf\n\
+                ");
+
+            }
         | program line {printf("Program: line\n");}
         ;
 
@@ -339,7 +353,16 @@ int main(void) {
     }
     fprintf(yyout, "%s", header);
     int result = yyparse();
+    
     fprintf(yyout, "%s", trailer);
+
+    fprintf(yyout,
+    "printf:\n\
+    pop eax                 ; Get value to print\n\
+    ret\n\
+    ");
+
+    
     fclose(yyout);
     return result;
 }
