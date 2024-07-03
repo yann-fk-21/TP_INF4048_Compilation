@@ -9,13 +9,14 @@ ngre {
     mbeug (A>=10) then
         mouah A;
     nambeug;  
-}tehque(A<=6);
+}tehque(A<6);
 
+mouah B;
 
-mbowne(A = 4; A > 0; A -= 1)
-{
-    tchue A;
-};
+mbowne(A = 4; A >= 0; A -= 1) then
+    mouah A;
+nambowne;
+
 
 
 

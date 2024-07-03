@@ -29,7 +29,7 @@ char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 
 %union {int num; char id;}         
 %start program
-%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token endwhile_token
+%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token endwhile_token endfor_token
 %token plus minus multiply divide mod
 %token less_than greater_than less_equal greater_equal equal
 %token assign plus_assign minus_assign multiply_assign divide_assign different
@@ -57,13 +57,10 @@ statement : assignment {printf("Statement: assignment\n");}
           | for_statement { printf("Statement: for_statement\n"); }
           | read_token identifier {printf("Statement: read_token identifier\n"); fprintf(yyout, "lea eax, [%c]\npush eax\npush dword fmtlec\ncall scanf\nadd esp, 8\n", $2);}
           | write_token identifier {printf("Statement: write_token identifier\n"); fprintf(yyout, "mov eax, [%c]\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n", $2);}
-          ;
+          ;      
 
-dstatement: statement semicolon  
-            | statement semicolon dstatement        
-
-if_statement : if_token left_paren condition right_paren alors dstatement finsi 
-              | if_token left_paren condition right_paren alors dstatement sinon dstatement finsi
+if_statement : if_token left_paren condition right_paren alors blocBody finsi 
+              | if_token left_paren condition right_paren alors blocBody sinon blocBody finsi
               ;
 
 finsi : fsi_token {
@@ -95,7 +92,7 @@ sinon : else_token {
     ;
 
 while_statement : 
-                |while_token debutWhile left_paren expbool right_paren then_token blocInWhile finWhile
+                |while_token debutWhile left_paren expbool right_paren then_token blocBody finWhile
                 ;
 debutWhile : {
     printf("debutWhile\n");
@@ -108,12 +105,6 @@ expbool : condition {
     fprintf(yyout,"pop eax\ncmp eax,1\njne finWhile%d\n",compteurWhile);
 };
 
-blocInWhile : dstatement
-            | if_statement
-            | if_statement blocInWhile
-            | dstatement blocInWhile
-            ;
-
 finWhile : endwhile_token {
     fprintf(yyout,"jmp debutWhile%d\nfinWhile%d:\n",compteurWhile,compteurWhile);
 };
@@ -121,7 +112,7 @@ finWhile : endwhile_token {
                 
 
 
-do_statement : do_token left_block debutDoWhile blocInDoWhile right_block while_token left_paren expboolForDo right_paren finDoWhile
+do_statement : do_token left_block debutDoWhile blocBody right_block while_token left_paren expboolForDo right_paren finDoWhile
 
 debutDoWhile : {
     printf("debutDoWhile\n");
@@ -134,35 +125,65 @@ expboolForDo : condition {
     fprintf(yyout,"pop eax\ncmp eax,0\njne finDoWhile%d\n",compteurDo);
 };
 
-blocInDoWhile : dstatement
-            | if_statement
-            | if_statement blocInDoWhile
-            | dstatement blocInDoWhile
-            ;
 
 finDoWhile : {
     fprintf(yyout,"jmp debutDoWhile%d\nfinDoWhile%d:\n",compteurDo,compteurDo);
 };
 
 
-for_statement : for_token left_paren assignment semicolon condition semicolon assignment right_paren then_token block  
+for_statement : for_token left_paren init_assignment semicolon condition_for semicolon next_value_assignment right_paren do_for blocBody for_end
               {
-                fprintf(yyout, "; for loop\n");
-                fprintf(yyout, "; Initialization\n");
-                fprintf(yyout, "pop eax\n");
-                fprintf(yyout, "cmp eax, 0\n");
-                fprintf(yyout, "je for_end%d\n", compteurFor);
-                fprintf(yyout, "; Block start\n");
-                fprintf(yyout, "; Increment\n");
-                fprintf(yyout, "jmp for_init%d\n", compteurFor);
-                fprintf(yyout, "for_end%d:\n", compteurFor);
+                    fprintf(yyout, "\n\n; Block end\n");
+                    fprintf(yyout, "; Increment iterator\n");
+                    fprintf(yyout, "jmp next_iterator%d\n", compteurFor);
+                    fprintf(yyout, "for_end%d:\n", compteurFor);
+                    fprintf(yyout, "; End of for loop\n\n\n");
+                    printf("Reduction of for loop....\n");
               }  
-              ;           
+              ;
+
+
+
+init_assignment : assignment {
+                    printf("Initializing loop iterator\n");
+                    fprintf(yyout, "; Condition check\n");
+                    fprintf(yyout, "condition_check%d:\n", compteurFor);
+                };
+
+
+condition_for : condition 
+                {
+                    fprintf(yyout, "pop eax             ; eax is now the boolean value of the condition\n");
+                    fprintf(yyout, "cmp eax, 0\n");
+                    fprintf(yyout, "je for_end%d        ; Jump to the end of the for loop if the condition is no longer true\n", compteurFor);
+                    fprintf(yyout, "jmp for_block_start%d\n", compteurFor);
+                    fprintf(yyout, "; Increment iterator\n");
+                    fprintf(yyout, "next_iterator%d:\n", compteurFor);
+                };
+
+next_value_assignment : assignment
+                {
+                    fprintf(yyout, "jmp condition_check%d\n", compteurFor);
+                };                
+
+
+do_for : then_token
+                {
+                    fprintf(yyout, "; Block start\n");
+                    fprintf(yyout, "for_block_start%d\n\n", compteurFor);
+                };
+
+for_end : endfor_token { printf("end for");}                
+         
           
 
 block : left_block program right_block {printf("Block: { program }\n");}
       | statement {printf("Block: statement\n");}
       ;
+
+blocBody: program  {printf("block body:  program \n");}
+         | statement {printf("blocBody body: statement\n");}
+         ;      
 
 assignment : identifier assign exp
               {printf("Assignment: identifier assign exp\n"); updateSymbolVal($1, $3); fprintf(yyout, "pop eax\nmov [%c], eax\n", $1);}
@@ -197,25 +218,25 @@ condition : exp less_than exp {
                 printf("Condition: exp LESS_THAN exp\n");
                 compteurTest++;
                 cmpInferieur=";Teste d'infériorité\n";
-			    fprintf(yyout,"%s%sjg test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	      
+			    fprintf(yyout,"%s%sjge test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	      
             }
           | exp greater_than exp {
                 printf("Condition: exp GREATER_THAN exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
-		        fprintf(yyout,"%s%sjg test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
+		        fprintf(yyout,"%s%sjge test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
             }
           | exp less_equal exp {
                 printf("Condition: exp LESS_EQUAL exp\n");
                 compteurTest++;
                 cmpInferieur=";Teste d'infériorité\n";
-			    fprintf(yyout,"%s%sjge test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	          
+			    fprintf(yyout,"%s%sjg test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	          
             }
           | exp greater_equal exp {$$ = $1 >= $3; 
                 printf("Condition: exp GREATER_EQUAL exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
-		        fprintf(yyout,"%s%sjge test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);    
+		        fprintf(yyout,"%s%sjg test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);    
             }
           | exp equal exp {
                 printf("Condition: exp EQUAL exp\n");
@@ -228,7 +249,6 @@ condition : exp less_than exp {
                 compteurTest++;
 			    cmpDifferent=";Teste de différence\n";
 			    fprintf(yyout,"%s%sjne test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpDifferent,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
-    
             }
           | logical_not exp {$$ = !$2; 
                 printf("Condition: LOGICAL_NOT exp\n");

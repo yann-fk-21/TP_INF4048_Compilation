@@ -12,6 +12,7 @@ int yylex();
 "tehque"           { return while_token; }
 "natehque"           { return endwhile_token; }
 "mbowne"             { return for_token; }
+"nambowne"             { return endfor_token; }
 "tchie"            { return read_token; }
 "mouah"           { return write_token; }
 "ngre"              { return do_token; }

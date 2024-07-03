@@ -6,8 +6,8 @@ langue: lex.yy.c y.tab.c
 lex.yy.c: langue.l
 	flex langue.l
 
-y.tab.c y.tab.h: langue1.y
-	yacc -d langue1.y
+y.tab.c y.tab.h: langue.y
+	yacc -d langue.y
 
 test: langue
 	./langue < text.cffn
