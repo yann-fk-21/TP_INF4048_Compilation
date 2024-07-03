@@ -11,12 +11,12 @@ ngre {
     nambeug;  
 }tehque(A<=6);
 
+tchue B;
 
-mbowne(A = 0; A < 5; A += 1)
+mbowne(A = 0; A < 1; A += 1)
 {
     tchue A;
 };
-tchue A;
 
 
 

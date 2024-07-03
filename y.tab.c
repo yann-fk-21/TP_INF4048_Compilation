@@ -2063,15 +2063,7 @@ int main(void) {
     fprintf(yyout, "%s", header);
     int result = yyparse();
     
-    fprintf(yyout, "%s", trailer);
-
-    fprintf(yyout,
-    "printf:\n\
-    pop eax                 ; Get value to print\n\
-    ret\n\
-    ");
-
-    
+    fprintf(yyout, "%s", trailer);    
     fclose(yyout);
     return result;
 }

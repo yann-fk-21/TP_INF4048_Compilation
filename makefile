@@ -14,9 +14,8 @@ test: langue
 
 progasm: output.asm
 	nasm -f elf32 -o prog.o output.asm
-	#ld -m elf_i386 -o progasm prog.o -lc -dynamic-linker /lib/ld-linux.so.2 -L/usr/lib32
+	ld -m elf_i386 -o progasm prog.o -lc -dynamic-linker /lib/ld-linux.so.2 -L/usr/lib32
 	
-	ld -m elf_i386 -o progasm prog.o # Only for Brel's pc
 
 finally: progasm
 	./progasm
