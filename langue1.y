@@ -145,24 +145,22 @@ finDoWhile : {
 };
 
 
-for_statement : for_token left_paren init_assignment semicolon condition_for semicolon assignment right_paren do_for block
+for_statement : for_token left_paren init_assignment semicolon condition_for semicolon assignment do_for block
               {
-
                     fprintf(yyout, "; Block end\n");
                     fprintf(yyout, "; Increment iterator\n");
                     fprintf(yyout, "jmp next_iterator%d\n", compteurFor);
                     fprintf(yyout, "for_end%d:\n", compteurFor);
-                    fprintf(yyout, "; End of for loop\n");
+                    fprintf(yyout, "; End of for loop\n\n\n");
                     printf("Reduction of for loop....\n");
               }  
-              ;           
+              ;
 
 
 
 init_assignment : assignment {
                     printf("Initializing loop iterator\n");
-                    fprintf(yyout, "mov rbx, eax        ; rbx is now the initialization value of the the init_assignment\n");
-                }
+                };
 
 
 condition_for : condition 
@@ -170,11 +168,11 @@ condition_for : condition
                     fprintf(yyout, "jmp condition_check%d\n", compteurFor);
                     fprintf(yyout, "; Increment iterator\n");
                     fprintf(yyout, "next_iterator%d:\n", compteurFor);
-                }
+                };
 
 
 
-do_for : then_token
+do_for : right_paren
                 {
                     fprintf(yyout, "; for loop\n");
                     fprintf(yyout, "; Initialization\n");
@@ -184,7 +182,7 @@ do_for : then_token
                     fprintf(yyout, "cmp eax, 0\n");
                     fprintf(yyout, "je for_end%d        ; Jump to the end of the for loop if the condition is no longer true\n", compteurFor);
                     fprintf(yyout, "; Block start\n");
-                }
+                };
 
 
 
