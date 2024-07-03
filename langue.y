@@ -18,6 +18,8 @@ int compteurFor = 0;
 int compteurSi = 0;
 int compteurTest = 0;
 int compteurWhile = 0;
+int compteurSwitch=0;
+int compteurCase=0;
 int sinonVu = 0;
 char *cmpEgal;
 char *testGene;
@@ -29,7 +31,7 @@ char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 
 %union {int num; char id;}         
 %start program
-%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token endwhile_token endfor_token
+%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token endwhile_token endfor_token switch_token case_token break_token default_token doublepoint
 %token plus minus multiply divide mod
 %token less_than greater_than less_equal greater_equal equal
 %token assign plus_assign minus_assign multiply_assign divide_assign different
@@ -37,7 +39,7 @@ char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 %token left_paren right_paren left_block right_block semicolon
 %token <num> number
 %token <id> identifier
-%type <num> program line exp term assignment condition statement block
+%type <num> program line exp term assignment condition statement 
 
 %%
 
@@ -55,6 +57,7 @@ statement : assignment {printf("Statement: assignment\n");}
           | while_statement { printf("Statement: while_statement\n"); }
           | do_statement { printf("Statement: do_statement\n"); }
           | for_statement { printf("Statement: for_statement\n"); }
+          | switch_statement { printf("Statement: switch_statement\n"); }
           | read_token identifier {printf("Statement: read_token identifier\n"); fprintf(yyout, "lea eax, [%c]\npush eax\npush dword fmtlec\ncall scanf\nadd esp, 8\n", $2);}
           | write_token identifier {printf("Statement: write_token identifier\n"); fprintf(yyout, "mov eax, [%c]\npush eax\npush dword fmt\ncall printf\nadd esp, 8\n", $2);}
           ;      
@@ -91,8 +94,58 @@ sinon : else_token {
         }
     ;
 
-while_statement : 
-                |while_token debutWhile left_paren expbool right_paren then_token blocBody finWhile
+switch_statement : switch_token left_paren expSwitch debutSwitch left_block any_case right_block 
+                {   
+                    fprintf(yyout, "endSwitch%d:\n", compteurSwitch);
+                    compteurSwitch++;
+                } 
+                 ;
+
+debutSwitch : right_paren {
+    fprintf(yyout, "; debut switch\n");
+            }
+            ;               
+
+expSwitch : exp {
+    fprintf(yyout,"pop eax\n");
+}
+
+any_case : bloc_case default_case  
+        | bloc_case any_case
+        ;
+
+bloc_case : case_tokenSwitch valSwitch doublepointSwitch programSwitch break_tokenSwitch semicolon  {
+    compteurCase++;
+        }
+        ;
+
+valSwitch: exp {
+    fprintf(yyout, "mov ebx, %d\n", $1);
+}       
+
+case_tokenSwitch: case_token {
+    fprintf(yyout,"case%d:\n", compteurCase);
+}  ;      
+
+break_tokenSwitch : break_token {
+    fprintf(yyout, "endcase%d:\n", compteurCase);
+}
+
+programSwitch : program {
+    fprintf(yyout, "jmp endSwitch%d\n", compteurSwitch);
+} ;
+
+doublepointSwitch: doublepoint {
+    printf("double point");
+    fprintf(yyout, "cmp ebx, eax\n");
+    fprintf(yyout, "jne endcase%d\n",compteurCase);
+}  ;     
+
+default_case : default_token doublepoint program break_token semicolon
+            ;
+
+
+while_statement : while_token debutWhile left_paren expbool right_paren then_token blocBody finWhile
                 ;
 debutWhile : {
     printf("debutWhile\n");
@@ -175,11 +228,6 @@ do_for : then_token
 
 for_end : endfor_token { printf("end for");}                
          
-          
-
-block : left_block program right_block {printf("Block: { program }\n");}
-      | statement {printf("Block: statement\n");}
-      ;
 
 blocBody: program  {printf("block body:  program \n");}
          | statement {printf("blocBody body: statement\n");}
@@ -222,7 +270,7 @@ condition : exp less_than exp {
                 printf("Condition: exp GREATER_THAN exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
-		        fprintf(yyout,"%s%sjge test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
+		        fprintf(yyout,"%s%sjg test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
             }
           | exp less_equal exp {
                 printf("Condition: exp LESS_EQUAL exp\n");

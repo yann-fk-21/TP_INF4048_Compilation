@@ -1,0 +1,6 @@
+tchie B;
+
+ngre {
+    mouah B;
+    B = B - 1;
+}tehque(B<6);

@@ -1,0 +1,9 @@
+tchie A;
+zaah (A) {
+    casmbeug 0 : B = 0 ; mouah B; 
+        neuk ;
+    casmbeug 1: B = 1 ; mouah B; 
+        neuk ;
+    tepaah : B = 2 ; mouah B; 
+        neuk ;     
+};

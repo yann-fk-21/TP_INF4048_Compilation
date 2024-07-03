@@ -17,6 +17,10 @@ int yylex();
 "mouah"           { return write_token; }
 "ngre"              { return do_token; }
 "then"            { return then_token; }
+"zaah"            { return switch_token; }
+"casmbeug"            { return case_token; }
+"neuk"            { return break_token; }
+"tepaah"            { return default_token; }
 "+"               { return plus; }
 "-"               { return minus; }
 "*"               { return multiply; }
@@ -41,6 +45,7 @@ int yylex();
 "{"               { return left_block; }
 "}"               { return right_block; }
 ";"               { return semicolon; }
+":"               { return doublepoint; }
 [a-zA-Z]          { yylval.id = yytext[0]; return identifier; }
 [0-9]+            { yylval.num = atoi(yytext); return number; }
 [ \t\n]           ;  
