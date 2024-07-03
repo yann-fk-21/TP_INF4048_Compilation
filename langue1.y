@@ -159,9 +159,9 @@ finDoWhile : {
 };
 
 
-for_statement : for_token left_paren init_assignment semicolon condition_for semicolon assignment do_for block
+for_statement : for_token left_paren init_assignment semicolon condition_for semicolon next_value_assignment do_for block
               {
-                    fprintf(yyout, "; Block end\n");
+                    fprintf(yyout, "\n\n; Block end\n");
                     fprintf(yyout, "; Increment iterator\n");
                     fprintf(yyout, "jmp next_iterator%d\n", compteurFor);
                     fprintf(yyout, "for_end%d:\n", compteurFor);
@@ -174,29 +174,35 @@ for_statement : for_token left_paren init_assignment semicolon condition_for sem
 
 init_assignment : assignment {
                     printf("Initializing loop iterator\n");
+                    fprintf(yyout, "; Condition check\n");
+                    fprintf(yyout, "condition_check%d:\n", compteurFor);
                 };
 
 
 condition_for : condition 
                 {
-                    fprintf(yyout, "jmp condition_check%d\n", compteurFor);
+                    fprintf(yyout, "pop eax             ; eax is now the boolean value of the condition\n");
+                    fprintf(yyout, "cmp eax, 0\n");
+                    fprintf(yyout, "je for_end%d        ; Jump to the end of the for loop if the condition is no longer true\n", compteurFor);
+                    fprintf(yyout, "jmp for_block_start%d\n", compteurFor);
                     fprintf(yyout, "; Increment iterator\n");
                     fprintf(yyout, "next_iterator%d:\n", compteurFor);
+                };
+
+
+next_value_assignment : assignment
+                {
+                    fprintf(yyout, "jmp condition_check%d\n", compteurFor);
                 };
 
 
 
 do_for : right_paren
                 {
-                    fprintf(yyout, "; for loop\n");
-                    fprintf(yyout, "; Initialization\n");
-                    fprintf(yyout, "; Condition check\n");
-                    fprintf(yyout, "condition_check%d:\n", compteurFor);
-                    fprintf(yyout, "pop eax             ; eax is now the boolean value of the condition\n");
-                    fprintf(yyout, "cmp eax, 0\n");
-                    fprintf(yyout, "je for_end%d        ; Jump to the end of the for loop if the condition is no longer true\n", compteurFor);
                     fprintf(yyout, "; Block start\n");
+                    fprintf(yyout, "for_block_start%d\n\n", compteurFor);
                 };
+
 
 
 
@@ -239,25 +245,25 @@ condition : exp less_than exp {
                 printf("Condition: exp LESS_THAN exp\n");
                 compteurTest++;
                 cmpInferieur=";Teste d'infériorité\n";
-			    fprintf(yyout,"%s%sjg test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	      
+			    fprintf(yyout,"%s%sjge test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	      
             }
           | exp greater_than exp {
                 printf("Condition: exp GREATER_THAN exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
-		        fprintf(yyout,"%s%sjg test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
+		        fprintf(yyout,"%s%sjle test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);
             }
           | exp less_equal exp {
                 printf("Condition: exp LESS_EQUAL exp\n");
                 compteurTest++;
                 cmpInferieur=";Teste d'infériorité\n";
-			    fprintf(yyout,"%s%sjge test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	          
+			    fprintf(yyout,"%s%sjg test%d\npush 1\njmp fintest%d \ntest%d:\npush 0\nfintest%d:\n\n\n",cmpInferieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);		       	          
             }
           | exp greater_equal exp {$$ = $1 >= $3; 
                 printf("Condition: exp GREATER_EQUAL exp\n");
                 compteurTest++;
 		        cmpSuperieur=";Teste de superiorité\n";       
-		        fprintf(yyout,"%s%sjge test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);    
+		        fprintf(yyout,"%s%sjl test%d\npush 0\njmp fintest%d \ntest%d:\npush 1\nfintest%d:\n\n\n",cmpSuperieur,cmp,compteurTest,compteurTest,compteurTest,compteurTest);    
             }
           | exp equal exp {
                 printf("Condition: exp EQUAL exp\n");
