@@ -65,32 +65,33 @@ extern int yydebug;
     read_token = 266,              /* read_token  */
     write_token = 267,             /* write_token  */
     fsi_token = 268,               /* fsi_token  */
-    plus = 269,                    /* plus  */
-    minus = 270,                   /* minus  */
-    multiply = 271,                /* multiply  */
-    divide = 272,                  /* divide  */
-    mod = 273,                     /* mod  */
-    less_than = 274,               /* less_than  */
-    greater_than = 275,            /* greater_than  */
-    less_equal = 276,              /* less_equal  */
-    greater_equal = 277,           /* greater_equal  */
-    equal = 278,                   /* equal  */
-    assign = 279,                  /* assign  */
-    plus_assign = 280,             /* plus_assign  */
-    minus_assign = 281,            /* minus_assign  */
-    multiply_assign = 282,         /* multiply_assign  */
-    divide_assign = 283,           /* divide_assign  */
-    different = 284,               /* different  */
-    logical_and = 285,             /* logical_and  */
-    logical_or = 286,              /* logical_or  */
-    logical_not = 287,             /* logical_not  */
-    left_paren = 288,              /* left_paren  */
-    right_paren = 289,             /* right_paren  */
-    left_block = 290,              /* left_block  */
-    right_block = 291,             /* right_block  */
-    semicolon = 292,               /* semicolon  */
-    number = 293,                  /* number  */
-    identifier = 294               /* identifier  */
+    endwhile_token = 269,          /* endwhile_token  */
+    plus = 270,                    /* plus  */
+    minus = 271,                   /* minus  */
+    multiply = 272,                /* multiply  */
+    divide = 273,                  /* divide  */
+    mod = 274,                     /* mod  */
+    less_than = 275,               /* less_than  */
+    greater_than = 276,            /* greater_than  */
+    less_equal = 277,              /* less_equal  */
+    greater_equal = 278,           /* greater_equal  */
+    equal = 279,                   /* equal  */
+    assign = 280,                  /* assign  */
+    plus_assign = 281,             /* plus_assign  */
+    minus_assign = 282,            /* minus_assign  */
+    multiply_assign = 283,         /* multiply_assign  */
+    divide_assign = 284,           /* divide_assign  */
+    different = 285,               /* different  */
+    logical_and = 286,             /* logical_and  */
+    logical_or = 287,              /* logical_or  */
+    logical_not = 288,             /* logical_not  */
+    left_paren = 289,              /* left_paren  */
+    right_paren = 290,             /* right_paren  */
+    left_block = 291,              /* left_block  */
+    right_block = 292,             /* right_block  */
+    semicolon = 293,               /* semicolon  */
+    number = 294,                  /* number  */
+    identifier = 295               /* identifier  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -110,41 +111,42 @@ extern int yydebug;
 #define read_token 266
 #define write_token 267
 #define fsi_token 268
-#define plus 269
-#define minus 270
-#define multiply 271
-#define divide 272
-#define mod 273
-#define less_than 274
-#define greater_than 275
-#define less_equal 276
-#define greater_equal 277
-#define equal 278
-#define assign 279
-#define plus_assign 280
-#define minus_assign 281
-#define multiply_assign 282
-#define divide_assign 283
-#define different 284
-#define logical_and 285
-#define logical_or 286
-#define logical_not 287
-#define left_paren 288
-#define right_paren 289
-#define left_block 290
-#define right_block 291
-#define semicolon 292
-#define number 293
-#define identifier 294
+#define endwhile_token 269
+#define plus 270
+#define minus 271
+#define multiply 272
+#define divide 273
+#define mod 274
+#define less_than 275
+#define greater_than 276
+#define less_equal 277
+#define greater_equal 278
+#define equal 279
+#define assign 280
+#define plus_assign 281
+#define minus_assign 282
+#define multiply_assign 283
+#define divide_assign 284
+#define different 285
+#define logical_and 286
+#define logical_or 287
+#define logical_not 288
+#define left_paren 289
+#define right_paren 290
+#define left_block 291
+#define right_block 292
+#define semicolon 293
+#define number 294
+#define identifier 295
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 24 "langue1.y"
+#line 30 "langue1.y"
 int num; char id;
 
-#line 148 "y.tab.h"
+#line 150 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

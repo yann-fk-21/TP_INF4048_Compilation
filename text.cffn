@@ -12,6 +12,13 @@ ngre {
 }tehque(A<=6);
 
 
+mbowne(i = 0; i < 5; i += 1)
+{
+    tchue i;
+}
+
+tchue 1;
+
 
 
 

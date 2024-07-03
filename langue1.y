@@ -29,11 +29,7 @@ char *cmp = "pop ebx\npop eax\ncmp eax, ebx\n\n";
 
 %union {int num; char id;}         
 %start program
-<<<<<<< HEAD
-%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token faire fsi_token endwhile_token
-=======
-%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token fsi_token
->>>>>>> 14f0623 (For loop done.)
+%token print exit_command if_token else_token while_token for_token do_token then_token read_token write_token fsi_token endwhile_token
 %token plus minus multiply divide mod
 %token less_than greater_than less_equal greater_equal equal
 %token assign plus_assign minus_assign multiply_assign divide_assign different
@@ -119,7 +115,7 @@ blocInWhile : dstatement
             ;
 
 finWhile : endwhile_token {
-    fprintf(yyout,"jmp debutWhile%d\nfinWhile%d:\n",compteurWhile,compteurWhile);
+    fprintf(yyout,"jmp debutWhile%d\nfinWhile%d:\n\n\n",compteurWhile,compteurWhile);
 };
 
                 
@@ -145,11 +141,11 @@ blocInDoWhile : dstatement
             ;
 
 finDoWhile : {
-    fprintf(yyout,"jmp debutDoWhile%d\nfinDoWhile%d:\n",compteurDo,compteurDo);
+    fprintf(yyout,"jmp debutDoWhile%d\nfinDoWhile%d:\n\n\n",compteurDo,compteurDo);
 };
 
 
-for_statement : for_token left_paren init_assignement semicolon condition_for semicolon assignment right_paren do block
+for_statement : for_token left_paren init_assignment semicolon condition_for semicolon assignment right_paren do_for block
               {
 
                     fprintf(yyout, "; Block end\n");
@@ -163,9 +159,9 @@ for_statement : for_token left_paren init_assignement semicolon condition_for se
 
 
 
-init_assignement : assignment {
+init_assignment : assignment {
                     printf("Initializing loop iterator\n");
-                    fprintf(yyout, "mov rbx, eax        ; rbx is now the initialization value of the the init_assignement\n");
+                    fprintf(yyout, "mov rbx, eax        ; rbx is now the initialization value of the the init_assignment\n");
                 }
 
 
@@ -173,12 +169,12 @@ condition_for : condition
                 {
                     fprintf(yyout, "jmp condition_check%d\n", compteurFor);
                     fprintf(yyout, "; Increment iterator\n");
-                    fprintf(yyout, "next_iterator%d:", compteurFor);
+                    fprintf(yyout, "next_iterator%d:\n", compteurFor);
                 }
 
 
 
-do : then_token
+do_for : then_token
                 {
                     fprintf(yyout, "; for loop\n");
                     fprintf(yyout, "; Initialization\n");
