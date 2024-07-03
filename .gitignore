@@ -1,7 +1,1 @@
-langue
-lex.yy.c
-output.asm
-prog.o
-progasm
-y.tab.c
 y.tab.h
