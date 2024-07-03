@@ -10,7 +10,7 @@ void updateSymbolVal(char symbol, int val);
 void readSymbolVal(char symbol);
 
 // Assembleur variables
-char *header = "section .data\nA: dd 0\nB: dd 0\nC: dd 0\nD: dd 0\nfmt: db \"%d\", 10, 0\nfmtlec: db \"%d\", 0\nsection .text\nglobal _start\nextern printf\nextern scanf\n\n_start:\n\n";
+char *header = "section .data\nA: dd 0\nB: dd 0\nC: dd 0\nD: dd 0\nE: dd 0\nfmt: db \"%d\", 10, 0\nfmtlec: db \"%d\", 0\nsection .text\nglobal _start\nextern printf\nextern scanf\n\n_start:\n\n";
 char *trailer = "mov eax, 1\nmov ebx, 0\nint 0x80\n";
 extern FILE *yyout;
 int compteurDo = 0;
@@ -204,13 +204,11 @@ assignment : identifier assign exp
                fprintf(yyout, "pop eax\nimul dword [%c], eax\n", $1);}
            | identifier divide_assign exp
               {printf("Assignment: identifier divide_assign exp\n");
-               int currentVal = symbolVal($1);
-               updateSymbolVal($1, currentVal / $3);
+               
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], eax\n", $1, $1);}
            | identifier mod exp
               {printf("Assignment: identifier mod exp\n");
-               int currentVal = symbolVal($1);
-               updateSymbolVal($1, currentVal % $3);
+               
                fprintf(yyout, "pop eax\nmov ebx, dword [%c]\ncdq\nidiv ebx\nmov dword [%c], edx\n", $1, $1);}
            ;
 
@@ -283,14 +281,20 @@ exp : term {$$ = $1; printf("Exp: term\n");}
     | exp plus term {$$ = $1 + $3; printf("Exp: exp plus term\n"); fprintf(yyout, "pop ebx\npop eax\nadd eax, ebx\npush eax\n");}
     | exp minus term {$$ = $1 - $3; printf("Exp: exp minus term\n"); fprintf(yyout, "pop ebx\npop eax\nsub eax, ebx\npush eax\n");}
     | exp multiply term {$$ = $1 * $3; printf("Exp: exp multiply term\n"); fprintf(yyout, "pop ebx\npop eax\nimul eax, ebx\npush eax\n");}
-    | exp divide term {$$ = $1 / $3; printf("Exp: exp divide term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush eax\n");}
-    | exp mod term {$$ = $1 % $3; printf("Exp: exp mod term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush edx\n");}
+    | exp divide term {printf("Exp: exp divide term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush eax\n");}
+    | exp mod term { printf("Exp: exp mod term\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush edx\n");}
     | left_paren condition right_paren { $$ = $2; }
     ;
 
-term : number {$$ = $1; printf("Term: number\n"); fprintf(yyout, "push %d\n", $1);}
-     | identifier {$$ = symbolVal($1); printf("Term: identifier\n"); fprintf(yyout, "push dword [%c]\n", $1);}
-     ;
+term    : term multiply factor { printf("Term: term * factor\n");  fprintf(yyout, "pop eax\npop ebx\nimul eax, ebx\npush eax\n");}
+        | term divide factor { printf("Term: term / factor\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush eax\n");}
+        | term mod factor { printf("Term: term %% factor\n"); fprintf(yyout, "pop ebx\npop eax\ncdq\nidiv ebx\npush edx\n");}
+        | factor { printf("Term: factor\n"); }
+        ;
+
+factor  : number { printf("Factor: number\n"); fprintf(yyout, "push %d\n", $1); }
+        | identifier { printf("Factor: identifier\n");  fprintf(yyout, "push dword [%c]\n", $1);}
+        ;
 
 %%
 

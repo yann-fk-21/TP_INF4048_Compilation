@@ -1,0 +1,9 @@
+A = 0;
+tchie B;
+tchie C;
+tehque (A<C) then
+    A = A+B;
+    mbeug (A!=2) then
+        mouah A;
+    nambeug;
+natehque;

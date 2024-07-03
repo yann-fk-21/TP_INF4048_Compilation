@@ -10,7 +10,7 @@ y.tab.c y.tab.h: langue.y
 	yacc -d langue.y
 
 test: langue
-	./langue < text.cffn
+	./langue < test5.cffn
 
 progasm: output.asm
 	nasm -f elf32 -o prog.o output.asm

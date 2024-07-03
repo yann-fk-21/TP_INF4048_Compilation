@@ -1,0 +1,20 @@
+tchie A;
+tchie B;
+
+mbeug(A>B) then
+    D = A;
+    C = B % A;
+nambeug;
+mbeug(A<B) then
+    D = A;
+    C = B % A;
+nambeug;
+tehque(C!=0) then
+    E = D;
+    D = C;
+    C = E % D;
+natehque;
+
+mouah D;
+
+

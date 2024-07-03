@@ -1,0 +1,19 @@
+tchie A;
+B = 2;
+
+tehque(B<A) then
+    E = A % B;
+    mbeug (E==0) then
+        D = D + 1;
+        mouah D;
+    tepaahpoh 
+        C = C + 1;
+        mouah C;
+    nambeug;
+natehque;
+
+mbeug (D == 0) then
+    A = 0;
+    mouah A;
+nambeug;
+
