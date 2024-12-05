@@ -1,0 +1,1 @@
+Pour lancer l'analyse, tapez la commande cat cmd.mes | ./exo17 dans le dossier exo17
